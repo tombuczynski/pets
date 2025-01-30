@@ -1,5 +1,6 @@
 package com.packt.pets.data
 
+import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverter
@@ -24,7 +25,11 @@ class PetsDBTypeConverters {
 
 }
 
-@Database(entities = [CatEntity::class], version = 1)
+@Database(
+    entities = [CatEntity::class],
+    version = 2,
+    autoMigrations = [AutoMigration(from = 1, to = 2)]
+)
 @TypeConverters(PetsDBTypeConverters::class)
 abstract class PetsDatabase : RoomDatabase() {
     abstract fun getCatDao(): CatDao

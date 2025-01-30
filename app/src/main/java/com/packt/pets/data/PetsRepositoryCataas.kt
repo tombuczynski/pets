@@ -5,7 +5,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
-import kotlin.random.Random
 
 /**
  * Created by Tom Buczynski on 26.11.2024.
@@ -15,15 +14,16 @@ class PetsRepositoryCataas(
     private val disp: CoroutineDispatcher,
     private val dao: CatDao
 ) : PetsRepository {
-    override suspend fun getPets(): Flow<List<Cat>> {
+    override suspend fun getAllPets(): Flow<List<Cat>> {
         return withContext(disp) {
-            val catsFLow = dao.getAll()
+            val catsFLow = dao.getAllCats()
 
             catsFLow.map { catList ->
                 catList.map {
                     Cat(
                         id = it.id,
                         tags = it.tags,
+                        isFavorite = it.isFavorite,
                         createdAt = it.createdAt,
                         updatedAt = it.updatedAt,
                         owner = it.owner
@@ -34,6 +34,38 @@ class PetsRepositoryCataas(
                     fetchPetsRemotely()
             }
         }
+    }
+
+    override suspend fun getFavoritePets(): Flow<List<Cat>> {
+        return withContext(disp) {
+            val catsFLow = dao.getFavoriteCats()
+
+            catsFLow.map { catList ->
+                catList.map {
+                    Cat(
+                        id = it.id,
+                        tags = it.tags,
+                        isFavorite = it.isFavorite,
+                        createdAt = it.createdAt,
+                        updatedAt = it.updatedAt,
+                        owner = it.owner
+                    )
+                }
+            }
+        }
+    }
+
+    override suspend fun updatePet(pet: Cat) {
+        val cat = CatEntity(
+            id = pet.id,
+            tags = pet.tags,
+            isFavorite = pet.isFavorite,
+            createdAt = pet.createdAt,
+            updatedAt = pet.updatedAt,
+            owner = pet.owner
+        )
+
+        dao.update(cat)
     }
 
     override suspend fun fetchPetsRemotely() {
@@ -47,6 +79,7 @@ class PetsRepositoryCataas(
                         CatEntity(
                             id = it.id,
                             tags = it.tags,
+                            isFavorite = it.isFavorite,
                             createdAt = it.createdAt,
                             updatedAt = it.updatedAt,
                             owner = it.owner

@@ -7,6 +7,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.PrimaryKey
 import androidx.room.Query
+import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -18,17 +19,25 @@ data class CatEntity(
 
     val tags: List<String>,
 
+    @ColumnInfo(name = "is_favorite", defaultValue = "0")
+    val isFavorite: Boolean = false,
+
     @ColumnInfo(name = "created_at") val createdAt: String,
     @ColumnInfo(name = "updated_at") val updatedAt: String,
-
     val owner: String,
 )
 
 @Dao
 interface CatDao {
     @Query("SELECT * FROM cats")
-    fun getAll(): Flow<List<CatEntity>>
+    fun getAllCats(): Flow<List<CatEntity>>
+
+    @Query("SELECT * FROM cats WHERE is_favorite = 1")
+    fun getFavoriteCats(): Flow<List<CatEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(cat: CatEntity)
+
+    @Update
+    suspend fun update(cat: CatEntity)
 }

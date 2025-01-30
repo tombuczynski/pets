@@ -16,22 +16,33 @@ class PetsViewModel(
 ): ViewModel() {
 
     private val mPetListUISTate = MutableStateFlow(PetListUIState())
+    private val mFavoritePetList: MutableStateFlow<List<Cat>> = MutableStateFlow(emptyList())
+    private val mSelectedPet: MutableStateFlow<Cat?> = MutableStateFlow(null)
 
     val petListUISTate: StateFlow<PetListUIState>
         get() = mPetListUISTate
 
-    private val mSelectedPet: MutableStateFlow<Cat?> = MutableStateFlow(null)
+
+    val favoritePetList: StateFlow<List<Cat>>
+        get() = mFavoritePetList
+
+    fun updatePet(pet: Cat) {
+        viewModelScope.launch {
+            petsRepository.updatePet(pet)
+        }
+    }
 
     val selectedPet: StateFlow<Cat?>
         get() = mSelectedPet
 
     fun setSelectedPet(pet: Cat?) { mSelectedPet.value = pet }
 
-    fun getPets() {
+
+    fun fetchPets() {
         mPetListUISTate.value = PetListUIState(isLoading = true)
 
         viewModelScope.launch {
-            val resultFlow = petsRepository.getPets().asNetworkResult()
+            val resultFlow = petsRepository.getAllPets().asNetworkResult()
 
             resultFlow.collect { result ->
                 when (result) {
@@ -47,8 +58,18 @@ class PetsViewModel(
         }
     }
 
+    fun fetchFavoritePets() {
+        viewModelScope.launch {
+            val catListFlow = petsRepository.getFavoritePets()
+
+            catListFlow.collect { catList ->
+                mFavoritePetList.value = catList
+            }
+        }
+    }
+
     init {
-        getPets()
+        fetchPets()
     }
 }
 

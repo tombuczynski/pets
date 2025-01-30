@@ -13,6 +13,8 @@ data class Cat (
 
     val tags: List<String>,
 
+    val isFavorite: Boolean = false,
+
     val createdAt: String = "",
     val updatedAt: String = "",
 

@@ -82,6 +82,7 @@ fun PetsScreen(
                     PetList(
                         pets = uiState.pets,
                         onPetClicked = { petsViewModel.setSelectedPet(it) },
+                        onFavoritePetClicked = { petsViewModel.updatePet(it) },
                         modifier = Modifier.weight(1f),
                         selectedPet = selectedPet,
                         listState = listState
@@ -103,6 +104,7 @@ fun PetsScreen(
                 PetList(
                     pets = uiState.pets,
                     onPetClicked = { petsViewModel.setSelectedPet(it); onPetClicked(it) },
+                    onFavoritePetClicked = { petsViewModel.updatePet(it) },
                     modifier = Modifier.fillMaxSize(),
                     listState = listState
                 )

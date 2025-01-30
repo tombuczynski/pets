@@ -4,14 +4,15 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 
 class PetsRepositoryDemo: PetsRepository {
-    override suspend fun getPets(): Flow<List<Cat>> {
+    override suspend fun getAllPets(): Flow<List<Cat>> {
         return flowOf(
             listOf(
                 Cat("GUOunrpLPB6Jw0zE", listOf(
                     "handicapped",
                     "tabby",
                     "double",
-                    "multiple")),
+                    "multiple"),
+                    true),
                 Cat("dmjubveyQIbCFA2v", listOf("orange")),
     //            Pet(1, "Bella", "Dog"),
     //            Pet(2, "Luna", "Cat"),
@@ -25,6 +26,13 @@ class PetsRepositoryDemo: PetsRepository {
     //            Pet(10, "Lily", "Cat"),
             )
         )
+    }
+
+    override suspend fun getFavoritePets(): Flow<List<Cat>> {
+        return getAllPets()
+    }
+
+    override suspend fun updatePet(pet: Cat) {
     }
 
     override suspend fun fetchPetsRemotely() {
