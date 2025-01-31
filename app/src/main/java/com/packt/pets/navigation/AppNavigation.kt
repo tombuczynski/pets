@@ -66,10 +66,10 @@ fun AppNavigation() {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
-    val menuDrawer: () -> Unit = {
+    val menuDrawer: (open: Boolean) -> Unit = {
         scope.launch {
             with(drawerState) {
-                if (isClosed) open() else close()
+                if (it) open() else close()
             }
         }
     }
@@ -78,7 +78,7 @@ fun AppNavigation() {
         MainScreen(
             navigationType = navigationType,
             currentRoute = currentRoute,
-            onMenuIconClicked = menuDrawer,
+            onMenuIconClicked = { menuDrawer(true) },
             onNavButtonClicked = navigation,
             listState = listState,
             navController = navController,
@@ -87,16 +87,18 @@ fun AppNavigation() {
         NavDrawer(
             currentRoute = currentRoute,
             drawerState = drawerState,
-            onNavButoonClicked = {
+            onNavButtonClicked = {
                 navigation(it)
-                menuDrawer()
+                menuDrawer(false)
             },
+            onSwipeBack = { menuDrawer(false) }
         ) {
-            Row(modifier = Modifier.fillMaxSize()) {
+            Row(modifier = Modifier.fillMaxSize())
+            {
                 if (navigationType.navControlType == NavControlType.NAVIGATION_RAIL) {
                     NavRail(
                         currentRoute = currentRoute,
-                        onMenuIconClicked = menuDrawer,
+                        onMenuIconClicked = { menuDrawer(true) },
                         onNavButtonClicked = navigation
                     )
                 }
@@ -104,7 +106,7 @@ fun AppNavigation() {
                 MainScreen(
                     navigationType = navigationType,
                     currentRoute = currentRoute,
-                    onMenuIconClicked = menuDrawer,
+                    onMenuIconClicked = { menuDrawer(true) },
                     onNavButtonClicked = navigation,
                     listState = listState,
                     navController = navController,
