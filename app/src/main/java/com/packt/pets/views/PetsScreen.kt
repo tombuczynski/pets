@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
@@ -91,7 +92,7 @@ fun PetsScreen(
                     VerticalDivider()
 
                     val modifierDetails = if (rightPanelWidth > 0.dp)
-                        Modifier.width(rightPanelWidth)
+                        Modifier.requiredWidth(rightPanelWidth)
                     else
                         Modifier.weight(2f)
 

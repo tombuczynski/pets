@@ -99,7 +99,7 @@ fun PetListItem(
                 model = "https://cataas.com/cat/${pet.id}",
                 contentDescription = "Cute Cat",
                 modifier = Modifier
-                    .height(200.dp)
+                    .height(250.dp)
                     .fillMaxWidth(),
                 contentScale = ContentScale.FillWidth
             )

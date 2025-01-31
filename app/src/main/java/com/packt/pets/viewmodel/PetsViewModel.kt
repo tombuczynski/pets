@@ -70,6 +70,7 @@ class PetsViewModel(
 
     init {
         fetchPets()
+        fetchFavoritePets()
     }
 }
 

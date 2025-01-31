@@ -1,13 +1,18 @@
 package com.packt.pets.views
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.material3.Text
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.packt.pets.data.Cat
 import com.packt.pets.navigation.ContentType
 import com.packt.pets.navigation.NavigationType
+import com.packt.pets.viewmodel.PetsViewModel
+import org.koin.androidx.compose.koinViewModel
 
 /**
  * Created by Tom Buczynski on 28.12.2024.
@@ -16,10 +21,20 @@ import com.packt.pets.navigation.NavigationType
 @Composable
 fun FavoritePetsScreen(
     navigationType: NavigationType,
-    modifier: Modifier = Modifier,
-    onPetClicked: (Cat) -> Unit = {},
+    modifier: Modifier = Modifier
 ) {
+    val petsViewModel: PetsViewModel = koinViewModel()
+    val pets by petsViewModel.favoritePetList.collectAsStateWithLifecycle()
+
     Box(contentAlignment = Alignment.Center, modifier = modifier) {
-        Text("Favorite Pets")
+        if (pets.isEmpty()) {
+            Text("No Favorite Pets yet !")
+        } else {
+            FavoritePetList(
+                pets = pets,
+                modifier = Modifier.fillMaxSize(),
+                onFavoritePetClicked = { petsViewModel.updatePet(it) }
+            )
+        }
     }
 }
