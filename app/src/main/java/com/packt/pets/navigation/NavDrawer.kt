@@ -1,7 +1,5 @@
 package com.packt.pets.navigation
 
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.anchoredDraggable
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -19,6 +17,7 @@ import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 
@@ -31,11 +30,11 @@ fun NavDrawer(
     currentRoute: String?,
     onNavButtonClicked: (Route) -> Unit,
     drawerState: DrawerState,
-    onSwipeBack: (() -> Unit)?,
+    onCloseGesture: (() -> Unit)? = null,
     content: @Composable () -> Unit
 ) {
     ModalNavigationDrawer(
-        gesturesEnabled = onSwipeBack == null,
+        gesturesEnabled = onCloseGesture == null,
         drawerContent = {
             ModalDrawerSheet (drawerContainerColor = MaterialTheme.colorScheme.surfaceContainer) {
                 NavDrawerContent(currentRoute, onNavButtonClicked)
@@ -46,10 +45,28 @@ fun NavDrawer(
         modifier = Modifier
             .pointerInput(Unit) {
                 detectHorizontalDragGestures { _ , dragAmount ->
-                    if (onSwipeBack != null && dragAmount < 0f)
-                        onSwipeBack()
+                    if (onCloseGesture != null && dragAmount < 50f &&
+                        drawerState.isOpen && ! drawerState.isAnimationRunning) {
+                        onCloseGesture()
+                    }
                 }
-            },
+            }
+            .pointerInput(Unit) {
+                awaitPointerEventScope {
+                    while (true) {
+                        val event = awaitPointerEvent()
+
+                        if (onCloseGesture != null &&
+                            event.type == PointerEventType.Release &&
+                            event.changes.any { it.isConsumed } &&
+                            drawerState.isOpen && ! drawerState.isAnimationRunning) {
+                            onCloseGesture()
+                        }
+
+                        //Log.d("NavDrawer", "${event.type}, ${event.changes.first().isConsumed}")
+                    }
+                }
+            }
     )
 }
 
@@ -58,7 +75,9 @@ fun NavDrawerContent(
     currentRoute: String?,
     onNavButoonClicked: (Route) -> Unit,
 ) {
-    Column(modifier = Modifier.fillMaxHeight().padding(8.dp)) {
+    Column(modifier = Modifier
+        .fillMaxHeight()
+        .padding(8.dp)) {
         Text(
             text = "Pets",
             style =  MaterialTheme.typography.titleMedium,

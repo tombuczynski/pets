@@ -89,9 +89,9 @@ fun AppNavigation() {
             drawerState = drawerState,
             onNavButtonClicked = {
                 navigation(it)
-                menuDrawer(false)
+                //menuDrawer(false)
             },
-            onSwipeBack = { menuDrawer(false) }
+            onCloseGesture = { menuDrawer(false) }
         ) {
             Row(modifier = Modifier.fillMaxSize())
             {
