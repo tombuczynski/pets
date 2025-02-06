@@ -3,6 +3,7 @@ package com.packt.pets.data
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.retry
 
 /**
  * Created by Tom Buczynski on 26.11.2024.
@@ -17,5 +18,6 @@ fun <T> Flow<T>.asNetworkResult(): Flow<NetworkResult<T>> {
         NetworkResult.Success(it)
     }.catch { exception ->
         emit(NetworkResult.Error(exception.message ?: "Unknown error"))
+        retry()
     }
 }

@@ -1,5 +1,6 @@
 package com.packt.pets.views
 
+import androidx.compose.animation.core.TweenSpec
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -52,7 +53,7 @@ fun FavoritePetList(
             items(pets) { pet ->
                 FavoritePetListItem(
                     pet = pet,
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth().animateItem(),
                     onFavoritePetClicked = onFavoritePetClicked
                 )
             }

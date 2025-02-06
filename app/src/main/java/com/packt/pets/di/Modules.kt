@@ -1,6 +1,7 @@
 package com.packt.pets.di
 
 import androidx.room.Room
+import androidx.work.WorkManager
 import com.packt.pets.data.CatDao
 import com.packt.pets.data.CataasApi
 import com.packt.pets.data.PETS_DATABASE_NAME
@@ -9,11 +10,13 @@ import com.packt.pets.data.PetsRepository
 import com.packt.pets.data.PetsRepositoryCataas
 import com.packt.pets.data.PetsRepositoryDemo
 import com.packt.pets.viewmodel.PetsViewModel
+import com.packt.pets.workers.SynchronizePetsWorker
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import org.koin.android.ext.koin.androidContext
+import org.koin.androidx.workmanager.dsl.workerOf
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
@@ -28,7 +31,7 @@ val appModules = module {
 
     single<CoroutineDispatcher> { Dispatchers.IO }
 
-    single<PetsViewModel> { PetsViewModel(get()) }
+    single<PetsViewModel> { PetsViewModel(get(), get()) }
 
     single<Retrofit> {
         Retrofit.Builder()
@@ -48,10 +51,14 @@ val appModules = module {
     }
 
     single<CatDao> { get<PetsDatabase>().getCatDao() }
+
+    single<WorkManager?> { WorkManager.getInstance(androidContext()) }
+
+    workerOf(::SynchronizePetsWorker)
 }
 
-val appPreviewModules = module {
+val appComposePreviewModules = module {
     single<PetsRepository> { PetsRepositoryDemo() }
 
-    single<PetsViewModel> { PetsViewModel(get()) }
+    single<PetsViewModel> { PetsViewModel(get(), null) }
 }

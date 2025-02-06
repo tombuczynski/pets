@@ -45,7 +45,7 @@ fun NavDrawer(
         modifier = Modifier
             .pointerInput(Unit) {
                 detectHorizontalDragGestures { _ , dragAmount ->
-                    if (onCloseGesture != null && dragAmount < 50f &&
+                    if (onCloseGesture != null && (dragAmount < -3f) &&
                         drawerState.isOpen && ! drawerState.isAnimationRunning) {
                         onCloseGesture()
                     }

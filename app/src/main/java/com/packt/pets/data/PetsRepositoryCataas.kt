@@ -2,8 +2,10 @@ package com.packt.pets.data
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.retry
 import kotlinx.coroutines.withContext
 
 /**
@@ -14,7 +16,7 @@ class PetsRepositoryCataas(
     private val disp: CoroutineDispatcher,
     private val dao: CatDao
 ) : PetsRepository {
-    override suspend fun getAllPets(): Flow<List<Cat>> {
+    override suspend fun getAllPets(): Flow<NetworkResult<List<Cat>>> {
         return withContext(disp) {
             val catsFLow = dao.getAllCats()
 
@@ -29,9 +31,19 @@ class PetsRepositoryCataas(
                         owner = it.owner
                     )
                 }
-            }.onEach { catList ->
-                if (catList.isEmpty())
-                    fetchPetsRemotely()
+            }.asNetworkResult().map { result ->
+                if (result is NetworkResult.Success) {
+                    try {
+                        if (result.data.isEmpty()) {
+                            fetchPetsRemotely()
+                        }
+                        result
+                    } catch (e: Exception) {
+                        NetworkResult.Error(e.message ?: "Unknown error")
+                    }
+                } else {
+                    result
+                }
             }
         }
     }

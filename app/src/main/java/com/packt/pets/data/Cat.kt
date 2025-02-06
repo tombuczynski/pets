@@ -8,7 +8,7 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 data class Cat (
-    @SerialName("_id")
+    @SerialName("id")
     val id: String,
 
     val tags: List<String>,
