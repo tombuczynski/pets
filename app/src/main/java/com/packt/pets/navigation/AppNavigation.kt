@@ -30,6 +30,7 @@ fun AppNavigation() {
     val navController = rememberNavController()
 
     val listState = rememberLazyListState()
+    val favoriteListState = rememberLazyListState()
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     //val currentDestination = navBackStackEntry?.destination
@@ -81,6 +82,7 @@ fun AppNavigation() {
             onMenuIconClicked = { menuDrawer(true) },
             onNavButtonClicked = navigation,
             listState = listState,
+            favoriteListState = favoriteListState,
             navController = navController,
         )
     } else {
@@ -109,6 +111,7 @@ fun AppNavigation() {
                     onMenuIconClicked = { menuDrawer(true) },
                     onNavButtonClicked = navigation,
                     listState = listState,
+                    favoriteListState = favoriteListState,
                     navController = navController,
                 )
 

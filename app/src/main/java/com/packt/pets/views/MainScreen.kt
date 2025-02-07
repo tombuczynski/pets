@@ -39,6 +39,7 @@ fun MainScreen(
     onMenuIconClicked: () -> Unit,
     onNavButtonClicked: (Route) -> Unit,
     listState: LazyListState,
+    favoriteListState: LazyListState,
     navController: NavHostController
 ) {
     Scaffold(
@@ -80,7 +81,8 @@ fun MainScreen(
                 navigationType = navigationType,
                 navController = navController,
                 listState = listState,
-                modifier = Modifier.fillMaxSize().padding(it)
+                modifier = Modifier.fillMaxSize().padding(it),
+                favoriteListState = favoriteListState
             )
         },
         bottomBar = {

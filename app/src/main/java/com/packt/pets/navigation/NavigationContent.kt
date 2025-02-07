@@ -21,6 +21,7 @@ fun NavigationContent(
     navigationType: NavigationType,
     navController: NavHostController,
     listState: LazyListState,
+    favoriteListState: LazyListState,
     modifier: Modifier = Modifier
 ) {
     NavHost(
@@ -41,7 +42,8 @@ fun NavigationContent(
         composable<Route.FavoritePets> {
             FavoritePetsScreen(
                 navigationType = navigationType,
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize(),
+                listState = favoriteListState
             )
         }
 

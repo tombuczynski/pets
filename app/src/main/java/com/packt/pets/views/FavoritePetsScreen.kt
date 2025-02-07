@@ -2,6 +2,8 @@ package com.packt.pets.views
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.material3.Text
@@ -21,7 +23,8 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun FavoritePetsScreen(
     navigationType: NavigationType,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    listState: LazyListState
 ) {
     val petsViewModel: PetsViewModel = koinViewModel()
     val pets by petsViewModel.favoritePetList.collectAsStateWithLifecycle()
@@ -33,6 +36,7 @@ fun FavoritePetsScreen(
             FavoritePetList(
                 pets = pets,
                 modifier = Modifier.fillMaxSize(),
+                listState = listState,
                 onFavoritePetClicked = { petsViewModel.updatePet(it) }
             )
         }
