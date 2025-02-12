@@ -17,6 +17,7 @@ import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.workmanager.dsl.workerOf
+import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
@@ -27,11 +28,9 @@ private val json = Json {
 }
 
 val appModules = module {
-    single<PetsRepository> { PetsRepositoryCataas(get(), get(), get()) }
+    viewModelOf(::PetsViewModel)
 
-    single<CoroutineDispatcher> { Dispatchers.IO }
-
-    single<PetsViewModel> { PetsViewModel(get(), get()) }
+    single<PetsRepository> { PetsRepositoryCataas(get(), get()) }
 
     single<Retrofit> {
         Retrofit.Builder()

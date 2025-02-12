@@ -1,6 +1,7 @@
 package com.packt.pets.data
 
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
@@ -13,11 +14,10 @@ import kotlinx.coroutines.withContext
  */
 class PetsRepositoryCataas(
     private val api: CataasApi,
-    private val disp: CoroutineDispatcher,
     private val dao: CatDao
 ) : PetsRepository {
     override suspend fun getAllPets(): Flow<NetworkResult<List<Cat>>> {
-        return withContext(disp) {
+        return withContext(Dispatchers.IO) {
             val catsFLow = dao.getAllCats()
 
             catsFLow.map { catList ->
@@ -49,7 +49,7 @@ class PetsRepositoryCataas(
     }
 
     override suspend fun getFavoritePets(): Flow<List<Cat>> {
-        return withContext(disp) {
+        return withContext(Dispatchers.IO) {
             val catsFLow = dao.getFavoriteCats()
 
             catsFLow.map { catList ->
@@ -81,7 +81,7 @@ class PetsRepositoryCataas(
     }
 
     override suspend fun fetchPetsRemotely() {
-        withContext(disp) {
+        withContext(Dispatchers.IO) {
             val response = api.fetchCats("cute", 20)
 
             if (response.isSuccessful) {
