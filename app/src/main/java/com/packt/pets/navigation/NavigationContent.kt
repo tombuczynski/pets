@@ -1,6 +1,7 @@
 package com.packt.pets.navigation
 
 import android.Manifest
+import android.os.Build
 import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -38,22 +39,26 @@ fun NavigationContent(
     var permissionStatus by remember { mutableStateOf(PermissionStatus.UNKNOWN) }
     val context = LocalContext.current
 
-    PermissionDialog(
-        permission = Manifest.permission.ACCESS_COARSE_LOCATION,
-        onPermissionAction = {
-            if (it == PermissionStatus.GRANTED) {
-                permissionStatus = it
-            } else if (it == PermissionStatus.DENIED) {
-                permissionStatus = it
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        PermissionDialog(
+            permission = Manifest.permission.ACCESS_COARSE_LOCATION,
+            onPermissionAction = {
+                if (it == PermissionStatus.GRANTED) {
+                    permissionStatus = it
+                } else if (it == PermissionStatus.DENIED) {
+                    permissionStatus = it
 
-                Toast.makeText(
-                    context,
-                    "Location permission denied, content can't be shown",
-                    Toast.LENGTH_LONG
-                ).show()
+                    Toast.makeText(
+                        context,
+                        "Location permission denied, content can't be shown",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
             }
-        }
-    )
+        )
+    } else {
+        permissionStatus = PermissionStatus.GRANTED
+    }
 
     NavHost(
         navController = navController,
