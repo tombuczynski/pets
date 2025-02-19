@@ -1,14 +1,25 @@
 package com.packt.pets.navigation
 
+import android.Manifest
+import android.widget.Toast
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.packt.pets.views.FavoritePetsScreen
+import com.packt.pets.views.PermissionDialog
+import com.packt.pets.views.PermissionStatus
 import com.packt.pets.views.PetDetailsScreen
 import com.packt.pets.views.PetsScreen
 
@@ -24,27 +35,55 @@ fun NavigationContent(
     favoriteListState: LazyListState,
     modifier: Modifier = Modifier
 ) {
+    var permissionStatus by remember { mutableStateOf(PermissionStatus.UNKNOWN) }
+    val context = LocalContext.current
+
+    PermissionDialog(
+        permission = Manifest.permission.ACCESS_COARSE_LOCATION,
+        onPermissionAction = {
+            if (it == PermissionStatus.GRANTED) {
+                permissionStatus = it
+            } else if (it == PermissionStatus.DENIED) {
+                permissionStatus = it
+
+                Toast.makeText(
+                    context,
+                    "Location permission denied, content can't be shown",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
+    )
+
     NavHost(
         navController = navController,
         startDestination =  Route.Pets,
         modifier = modifier
     ) {
         composable<Route.Pets> {
-            PetsScreen(
-                navigationType = navigationType,
-                modifier = Modifier.fillMaxSize(),
-                listState = listState
-            ) {
-                navController.navigate(Route.PetDetails(it))
+            if (permissionStatus == PermissionStatus.GRANTED) {
+                PetsScreen(
+                    navigationType = navigationType,
+                    modifier = Modifier.fillMaxSize(),
+                    listState = listState
+                ) {
+                    navController.navigate(Route.PetDetails(it))
+                }
+            } else {
+                Box(modifier = Modifier.fillMaxSize())
             }
         }
 
         composable<Route.FavoritePets> {
-            FavoritePetsScreen(
-                navigationType = navigationType,
-                modifier = Modifier.fillMaxSize(),
-                listState = favoriteListState
-            )
+            if (permissionStatus == PermissionStatus.GRANTED) {
+                FavoritePetsScreen(
+                    navigationType = navigationType,
+                    modifier = Modifier.fillMaxSize(),
+                    listState = favoriteListState
+                )
+            } else {
+                Box(modifier = Modifier.fillMaxSize())
+            }
         }
 
         composable<Route.PetDetails> { entry ->

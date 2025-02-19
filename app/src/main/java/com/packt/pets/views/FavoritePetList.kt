@@ -1,6 +1,5 @@
 package com.packt.pets.views
 
-import androidx.compose.animation.core.TweenSpec
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,11 +24,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
+import coil3.ColorImage
 import coil3.annotation.ExperimentalCoilApi
 import coil3.compose.AsyncImage
 import coil3.compose.AsyncImagePreviewHandler
 import coil3.compose.LocalAsyncImagePreviewHandler
-import coil3.test.FakeImage
 import com.packt.pets.data.Cat
 
 @OptIn(ExperimentalCoilApi::class)
@@ -42,8 +41,9 @@ fun FavoritePetList(
     listState: LazyListState = rememberLazyListState()
 ) {
     val previewHandler = AsyncImagePreviewHandler {
-        FakeImage(
-            color = Color.Blue.toArgb()
+        ColorImage(
+            color = Color.Blue.toArgb(),
+            height = 800
         )
     }
 

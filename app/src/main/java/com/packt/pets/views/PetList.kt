@@ -1,6 +1,5 @@
 package com.packt.pets.views
 
-import android.graphics.drawable.PaintDrawable
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -33,12 +32,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import coil3.DrawableImage
+import coil3.ColorImage
 import coil3.annotation.ExperimentalCoilApi
 import coil3.compose.AsyncImage
 import coil3.compose.AsyncImagePreviewHandler
 import coil3.compose.LocalAsyncImagePreviewHandler
-import coil3.test.FakeImage
 import com.packt.pets.data.Cat
 
 @OptIn(ExperimentalCoilApi::class)
@@ -52,7 +50,7 @@ fun PetList(
     listState: LazyListState = rememberLazyListState()
 ) {
     val previewHandler = AsyncImagePreviewHandler {
-        FakeImage(
+        ColorImage(
             color = Color.Red.toArgb()
         )
     }

@@ -1,5 +1,5 @@
 [versions]
-agp = "8.8.0"
+agp = "8.8.1"
 kotlin = "2.0.21"
 kotlin-ksp = "2.0.21-1.0.28"
 coreKtx = "1.15.0"
@@ -8,13 +8,13 @@ junitAndroid = "1.2.1"
 espressoCore = "3.6.1"
 lifecycleRuntimeKtx = "2.8.7"
 activityCompose = "1.10.0"
-composeBom = "2025.01.01"
+composeBom = "2025.02.00"
 koin = "4.0.2"
 retrofit = "2.11.0"
 kotlinxSerializationJson = "1.8.0"
 okhttp = "4.12.0"
-coil = "3.0.4"
-navigationCompose = "2.8.6"
+coil = "3.1.0"
+navigationCompose = "2.8.7"
 adaptiveAndroidVersion = "1.0.0"
 room = "2.6.1"
 work = "2.10.0"
@@ -31,7 +31,7 @@ androidx-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
-androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest", version = "1.7.7" }
+androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest", version = "1.7.8" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
@@ -45,7 +45,6 @@ kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-
 okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
 coil-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
 coil-network-okhttp = { group = "io.coil-kt.coil3", name = "coil-network-okhttp", version.ref = "coil" }
-coil-test = { group = "io.coil-kt.coil3", name = "coil-test", version.ref = "coil" }
 androidx-adaptive-android = { group = "androidx.compose.material3.adaptive", name = "adaptive-android", version.ref = "adaptiveAndroidVersion" }
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
@@ -64,5 +63,5 @@ room = { id = "androidx.room", version.ref = "room" }
 [bundles]
 koin = ["koin-core", "koin-android", "koin-androidx-compose", "koin-androidx-workmanager"]
 retrofit = ["retrofit", "converter-kotlinx-serialization", "okhttp" ]
-coil = ["coil-compose", "coil-network-okhttp", "coil-test"]
+coil = ["coil-compose", "coil-network-okhttp"]
 room = ["androidx-room-runtime", "androidx-room-ktx"]

@@ -35,7 +35,7 @@ interface CatDao {
     @Query("SELECT * FROM cats WHERE is_favorite = 1")
     fun getFavoriteCats(): Flow<List<CatEntity>>
 
-    @Insert(onConflict = OnConflictStrategy.ABORT)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(cat: CatEntity)
 
     @Update
