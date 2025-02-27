@@ -1,5 +1,6 @@
 package com.packt.pets.viewmodel
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.work.Constraints
@@ -104,6 +105,9 @@ class PetsViewModel(
         getFavoritePets()
         startPetsSynchronization()
     }
+
+    // Leaking
+    //var context: Context? = null
 }
 
 data class PetListUIState(

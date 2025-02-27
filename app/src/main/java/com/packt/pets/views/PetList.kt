@@ -1,5 +1,6 @@
 package com.packt.pets.views
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -83,13 +84,18 @@ fun PetListItem(
     onFavoritePetClicked: (Cat) -> Unit,
     isSelected: Boolean = false
 ) {
+    val borderModifier =
+        if (isSelected) Modifier.border(1.dp, MaterialTheme.colorScheme.primary, CardDefaults.elevatedShape)
+    else
+        Modifier
+
     ElevatedCard(
-        colors =
-            CardDefaults.elevatedCardColors().copy(
-                containerColor = if (isSelected) MaterialTheme.colorScheme.surfaceVariant else Color.Unspecified
-            ),
+//        colors =
+//            CardDefaults.elevatedCardColors().copy(
+//                containerColor = if (isSelected) MaterialTheme.colorScheme.surfaceVariant else Color.Unspecified
+//            ),
         modifier = modifier
-            .padding(8.dp)
+            .padding(8.dp) then borderModifier
             .selectable(isSelected) { onPetClicked(pet) }
     ) {
         Column(modifier = Modifier.fillMaxWidth()) {

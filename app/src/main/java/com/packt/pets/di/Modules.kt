@@ -2,6 +2,9 @@ package com.packt.pets.di
 
 import androidx.room.Room
 import androidx.work.WorkManager
+import com.chuckerteam.chucker.api.ChuckerCollector
+import com.chuckerteam.chucker.api.ChuckerInterceptor
+import com.chuckerteam.chucker.api.RetentionManager
 import com.packt.pets.data.CatDao
 import com.packt.pets.data.CataasApi
 import com.packt.pets.data.PETS_DATABASE_NAME
@@ -15,6 +18,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.workmanager.dsl.workerOf
 import org.koin.core.module.dsl.viewModelOf
@@ -32,9 +36,41 @@ val appModules = module {
 
     single<PetsRepository> { PetsRepositoryCataas(get(), get()) }
 
+    single<ChuckerInterceptor> {
+        // Create the Collector
+        val chuckerCollector = ChuckerCollector(
+            context = androidContext(),
+            // Toggles visibility of the notification
+            showNotification = true,
+            // Allows to customize the retention period of collected data
+            retentionPeriod = RetentionManager.Period.ONE_HOUR
+        )
+
+        // Create the Interceptor
+        ChuckerInterceptor.Builder(androidContext())
+            // The previously created Collector
+            .collector(chuckerCollector)
+            // The max body content length in bytes, after this responses will be truncated.
+            .maxContentLength(250_000L)
+            // If true - read the whole response body even when the client does not consume the response completely.
+            // This is useful in case of parsing errors or when the response body
+            // is closed before being read like in Retrofit with Void and Unit types.
+            .alwaysReadResponseBody(false)
+            // Controls Android shortcut creation.
+            .createShortcut(true)
+            .build()
+    }
+
+    single<OkHttpClient> {
+        OkHttpClient.Builder()
+            .addInterceptor(get<ChuckerInterceptor>())
+            .build()
+    }
+
     single<Retrofit> {
         Retrofit.Builder()
             .addConverterFactory(json.asConverterFactory("application/json; charset=UTF8".toMediaType()))
+            .client(get())
             .baseUrl("https://cataas.com/api/")
             .build()
     }

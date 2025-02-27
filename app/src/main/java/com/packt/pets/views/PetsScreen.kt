@@ -18,6 +18,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -43,6 +44,10 @@ fun PetsScreen(
     onPetClicked: (Cat) -> Unit
 ) {
     val petsViewModel: PetsViewModel = koinViewModel()
+
+    //if (petsViewModel.context == null)
+    //    petsViewModel.context = LocalContext.current
+
 //    val petsViewModel: PetsViewModel = viewModel()
     val uiState by petsViewModel.petListUISTate.collectAsStateWithLifecycle()
 
