@@ -41,10 +41,9 @@ fun PetsScreen(
     navigationType: NavigationType,
     modifier: Modifier = Modifier,
     listState: LazyListState,
+    petsViewModel: PetsViewModel,
     onPetClicked: (Cat) -> Unit
 ) {
-    val petsViewModel: PetsViewModel = koinViewModel()
-
     //if (petsViewModel.context == null)
     //    petsViewModel.context = LocalContext.current
 
@@ -126,6 +125,7 @@ fun PetsListPreview() {
                 Rect()
             ),
             listState = rememberLazyListState(),
+            petsViewModel = koinViewModel(),
             onPetClicked = { }
         )
     }

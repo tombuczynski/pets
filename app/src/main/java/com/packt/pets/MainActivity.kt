@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import com.packt.pets.navigation.AppNavigation
 import com.packt.pets.ui.theme.PetsTheme
 import leakcanary.AppWatcher
+import org.koin.androidx.compose.KoinAndroidContext
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,7 +17,9 @@ class MainActivity : ComponentActivity() {
         //enableEdgeToEdge()
         setContent {
             PetsTheme(dynamicColor = true) {
-                AppNavigation()
+                KoinAndroidContext() {
+                    AppNavigation()
+                }
             }
         }
     }

@@ -24,9 +24,9 @@ import org.koin.androidx.compose.koinViewModel
 fun FavoritePetsScreen(
     navigationType: NavigationType,
     modifier: Modifier = Modifier,
-    listState: LazyListState
-) {
-    val petsViewModel: PetsViewModel = koinViewModel()
+    listState: LazyListState,
+    petsViewModel: PetsViewModel
+    ) {
     val pets by petsViewModel.favoritePetList.collectAsStateWithLifecycle()
 
     Box(contentAlignment = Alignment.Center, modifier = modifier) {

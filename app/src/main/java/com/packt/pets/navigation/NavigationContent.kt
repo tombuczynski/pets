@@ -18,11 +18,13 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
+import com.packt.pets.viewmodel.PetsViewModel
 import com.packt.pets.views.FavoritePetsScreen
 import com.packt.pets.views.PermissionDialog
 import com.packt.pets.views.PermissionStatus
 import com.packt.pets.views.PetDetailsScreen
 import com.packt.pets.views.PetsScreen
+import org.koin.androidx.compose.koinViewModel
 
 /**
  * Created by Tom Buczynski on 01.01.2025.
@@ -38,6 +40,9 @@ fun NavigationContent(
 ) {
     var permissionStatus by remember { mutableStateOf(PermissionStatus.UNKNOWN) }
     val context = LocalContext.current
+
+    val petsViewModel: PetsViewModel = koinViewModel()
+
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         PermissionDialog(
@@ -70,6 +75,7 @@ fun NavigationContent(
                 PetsScreen(
                     navigationType = navigationType,
                     modifier = Modifier.fillMaxSize(),
+                    petsViewModel = petsViewModel,
                     listState = listState
                 ) {
                     navController.navigate(Route.PetDetails(it))
@@ -84,6 +90,7 @@ fun NavigationContent(
                 FavoritePetsScreen(
                     navigationType = navigationType,
                     modifier = Modifier.fillMaxSize(),
+                    petsViewModel = petsViewModel,
                     listState = favoriteListState
                 )
             } else {

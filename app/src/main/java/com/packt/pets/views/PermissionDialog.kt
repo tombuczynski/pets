@@ -8,6 +8,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -50,7 +51,7 @@ fun PermissionDialog(
     if (dialogState == 1) {
         AlertDialog(
             title = { Text(stringResource(R.string.app_name)) },
-            icon = { Icon(Icons.Default.Info, null) },
+            icon = { Icon(Icons.Default.Warning, null) },
             text = { Text("This app requires the location permission to be granted.") },
             onDismissRequest = { dialogState = 2 },
             confirmButton = {
@@ -82,8 +83,6 @@ fun PermissionDialog(
 
 
 enum class PermissionStatus { UNKNOWN, GRANTED, DENIED }
-
-private enum class DialogState { HIDDEN, SHOWN, DISMISSED }
 
 private fun shouldShowRequestPermissionRationale(context: Context, permission: String): Boolean {
 
