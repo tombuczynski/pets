@@ -1,10 +1,7 @@
 package com.packt.pets.views
 
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
-import coil3.compose.AsyncImage
 import com.packt.pets.data.Cat
 
 /**

@@ -7,11 +7,11 @@ import androidx.test.runner.AndroidJUnitRunner
 /**
  * Created by Tom Buczynski on 10.02.2025.
  */
-class InstrumentationTestRunner  : AndroidJUnitRunner() {
+class InstrumentationTestRunner : AndroidJUnitRunner() {
     override fun newApplication(
         classLoader: ClassLoader?,
         className: String?,
-        context: Context?
+        context: Context?,
     ): Application {
         return super.newApplication(classLoader, PetsTestApplication::class.java.name, context)
     }

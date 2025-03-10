@@ -22,7 +22,7 @@ fun PetDetails(pet: Cat?, modifier: Modifier = Modifier) {
         Box(contentAlignment = Alignment.Center, modifier = modifier.padding(8.dp)) {
             Text(
                 text = "Select the pet whose photo you want to display",
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleMedium,
             )
         }
     } else {
@@ -30,7 +30,7 @@ fun PetDetails(pet: Cat?, modifier: Modifier = Modifier) {
             model = "https://cataas.com/cat/${pet.id}",
             contentDescription = "Cute Cat",
             modifier = modifier,
-            contentScale = ContentScale.Fit
+            contentScale = ContentScale.Fit,
         )
     }
 }

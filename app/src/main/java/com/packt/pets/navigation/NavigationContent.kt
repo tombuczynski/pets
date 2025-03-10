@@ -10,7 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -36,13 +35,12 @@ fun NavigationContent(
     navController: NavHostController,
     listState: LazyListState,
     favoriteListState: LazyListState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     var permissionStatus by remember { mutableStateOf(PermissionStatus.UNKNOWN) }
     val context = LocalContext.current
 
     val petsViewModel: PetsViewModel = koinViewModel()
-
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         PermissionDialog(
@@ -56,10 +54,10 @@ fun NavigationContent(
                     Toast.makeText(
                         context,
                         "Location permission denied, content can't be shown",
-                        Toast.LENGTH_LONG
+                        Toast.LENGTH_LONG,
                     ).show()
                 }
-            }
+            },
         )
     } else {
         permissionStatus = PermissionStatus.GRANTED
@@ -67,8 +65,8 @@ fun NavigationContent(
 
     NavHost(
         navController = navController,
-        startDestination =  Route.Pets,
-        modifier = modifier
+        startDestination = Route.Pets,
+        modifier = modifier,
     ) {
         composable<Route.Pets> {
             if (permissionStatus == PermissionStatus.GRANTED) {
@@ -76,7 +74,7 @@ fun NavigationContent(
                     navigationType = navigationType,
                     modifier = Modifier.fillMaxSize(),
                     petsViewModel = petsViewModel,
-                    listState = listState
+                    listState = listState,
                 ) {
                     navController.navigate(Route.PetDetails(it))
                 }
@@ -91,7 +89,7 @@ fun NavigationContent(
                     navigationType = navigationType,
                     modifier = Modifier.fillMaxSize(),
                     petsViewModel = petsViewModel,
-                    listState = favoriteListState
+                    listState = favoriteListState,
                 )
             } else {
                 Box(modifier = Modifier.fillMaxSize())
@@ -102,7 +100,7 @@ fun NavigationContent(
             val route: Route.PetDetails = entry.toRoute()
             PetDetailsScreen(
                 pet = route.pet,
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize(),
             )
         }
     }

@@ -17,7 +17,7 @@ class PetsTestApplication : Application() {
         startKoin {
             androidLogger(Level.ERROR)
             androidContext(applicationContext)
-            //workManagerFactory()
+            // workManagerFactory()
 
             modules(appModules)
         }

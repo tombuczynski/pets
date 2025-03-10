@@ -1,12 +1,8 @@
 package com.packt.pets.data
 
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.retry
 import kotlinx.coroutines.withContext
 
 /**
@@ -14,7 +10,7 @@ import kotlinx.coroutines.withContext
  */
 class PetsRepositoryCataas(
     private val api: CataasApi,
-    private val dao: CatDao
+    private val dao: CatDao,
 ) : PetsRepository {
     override suspend fun getAllPets(): Flow<NetworkResult<List<Cat>>> {
         return withContext(Dispatchers.IO) {
@@ -28,7 +24,7 @@ class PetsRepositoryCataas(
                         isFavorite = it.isFavorite,
                         createdAt = it.createdAt,
                         updatedAt = it.updatedAt,
-                        owner = it.owner
+                        owner = it.owner,
                     )
                 }
             }.asNetworkResult().map { result ->
@@ -60,7 +56,7 @@ class PetsRepositoryCataas(
                         isFavorite = it.isFavorite,
                         createdAt = it.createdAt,
                         updatedAt = it.updatedAt,
-                        owner = it.owner
+                        owner = it.owner,
                     )
                 }
             }
@@ -74,7 +70,7 @@ class PetsRepositoryCataas(
             isFavorite = pet.isFavorite,
             createdAt = pet.createdAt,
             updatedAt = pet.updatedAt,
-            owner = pet.owner
+            owner = pet.owner,
         )
 
         dao.update(cat)
@@ -94,8 +90,8 @@ class PetsRepositoryCataas(
                             isFavorite = it.isFavorite,
                             createdAt = it.createdAt,
                             updatedAt = it.updatedAt,
-                            owner = it.owner
-                        )
+                            owner = it.owner,
+                        ),
                     )
                 }
             } else {

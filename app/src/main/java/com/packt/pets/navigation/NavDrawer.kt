@@ -31,12 +31,12 @@ fun NavDrawer(
     onNavButtonClicked: (Route) -> Unit,
     drawerState: DrawerState,
     onCloseGesture: (() -> Unit)? = null,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     ModalNavigationDrawer(
         gesturesEnabled = onCloseGesture == null,
         drawerContent = {
-            ModalDrawerSheet (drawerContainerColor = MaterialTheme.colorScheme.surfaceContainer) {
+            ModalDrawerSheet(drawerContainerColor = MaterialTheme.colorScheme.surfaceContainer) {
                 NavDrawerContent(currentRoute, onNavButtonClicked)
             }
         },
@@ -44,9 +44,10 @@ fun NavDrawer(
         drawerState = drawerState,
         modifier = Modifier
             .pointerInput(Unit) {
-                detectHorizontalDragGestures { _ , dragAmount ->
+                detectHorizontalDragGestures { _, dragAmount ->
                     if (onCloseGesture != null && (dragAmount < -3f) &&
-                        drawerState.isOpen && ! drawerState.isAnimationRunning) {
+                        drawerState.isOpen && !drawerState.isAnimationRunning
+                    ) {
                         onCloseGesture()
                     }
                 }
@@ -59,14 +60,15 @@ fun NavDrawer(
                         if (onCloseGesture != null &&
                             event.type == PointerEventType.Release &&
                             event.changes.any { it.isConsumed } &&
-                            drawerState.isOpen && ! drawerState.isAnimationRunning) {
+                            drawerState.isOpen && !drawerState.isAnimationRunning
+                        ) {
                             onCloseGesture()
                         }
 
-                        //Log.d("NavDrawer", "${event.type}, ${event.changes.first().isConsumed}")
+                        // Log.d("NavDrawer", "${event.type}, ${event.changes.first().isConsumed}")
                     }
                 }
-            }
+            },
     )
 }
 
@@ -75,14 +77,16 @@ fun NavDrawerContent(
     currentRoute: String?,
     onNavButoonClicked: (Route) -> Unit,
 ) {
-    Column(modifier = Modifier
-        .fillMaxHeight()
-        .padding(8.dp)) {
+    Column(
+        modifier = Modifier
+            .fillMaxHeight()
+            .padding(8.dp),
+    ) {
         Text(
             text = "Pets",
-            style =  MaterialTheme.typography.titleMedium,
-            color =  MaterialTheme.colorScheme.primary,
-            modifier = Modifier.padding(8.dp)
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.primary,
+            modifier = Modifier.padding(8.dp),
         )
         HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
         NavigationDrawerItem(
@@ -91,12 +95,12 @@ fun NavDrawerContent(
             icon = {
                 Icon(
                     imageVector = Icons.Default.Home,
-                    contentDescription = "All Pets (Home)"
+                    contentDescription = "All Pets (Home)",
                 )
             },
             label = {
                 Text(text = "All Pets")
-            }
+            },
         )
 
         NavigationDrawerItem(
@@ -105,12 +109,12 @@ fun NavDrawerContent(
             icon = {
                 Icon(
                     imageVector = Icons.Default.Favorite,
-                    contentDescription = "Favorite Pets"
+                    contentDescription = "Favorite Pets",
                 )
             },
             label = {
                 Text(text = "Favorities")
-            }
+            },
         )
     }
 }

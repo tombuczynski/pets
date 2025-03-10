@@ -20,11 +20,11 @@ import androidx.compose.ui.Modifier
 fun NavRail(
     currentRoute: String?,
     onMenuIconClicked: () -> Unit,
-    onNavButtonClicked: (Route) -> Unit
+    onNavButtonClicked: (Route) -> Unit,
 ) {
     NavigationRail(
         modifier = Modifier.fillMaxHeight(),
-        containerColor = MaterialTheme.colorScheme.surfaceContainer
+        containerColor = MaterialTheme.colorScheme.surfaceContainer,
     ) {
         NavigationRailItem(
             selected = false,
@@ -32,9 +32,9 @@ fun NavRail(
             icon = {
                 Icon(
                     imageVector = Icons.Default.Menu,
-                    contentDescription = "Menu"
+                    contentDescription = "Menu",
                 )
-            }
+            },
         )
 
         NavigationRailItem(
@@ -43,9 +43,9 @@ fun NavRail(
             icon = {
                 Icon(
                     imageVector = Icons.Default.Home,
-                    contentDescription = "All Pets (Home)"
+                    contentDescription = "All Pets (Home)",
                 )
-            }
+            },
         )
 
         NavigationRailItem(
@@ -54,9 +54,9 @@ fun NavRail(
             icon = {
                 Icon(
                     imageVector = Icons.Default.Favorite,
-                    contentDescription = "Favorite Pets"
+                    contentDescription = "Favorite Pets",
                 )
-            }
+            },
         )
     }
 }

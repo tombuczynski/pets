@@ -5,19 +5,18 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.packt.pets.navigation.AppNavigation
 import com.packt.pets.ui.theme.PetsTheme
-import leakcanary.AppWatcher
 import org.koin.androidx.compose.KoinAndroidContext
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //AppWatcher.objectWatcher.expectWeaklyReachable(this, "Activity leak test")
+        // AppWatcher.objectWatcher.expectWeaklyReachable(this, "Activity leak test")
 
-        //enableEdgeToEdge()
+        // enableEdgeToEdge()
         setContent {
             PetsTheme(dynamicColor = true) {
-                KoinAndroidContext() {
+                KoinAndroidContext {
                     AppNavigation()
                 }
             }

@@ -12,8 +12,8 @@ import com.packt.pets.data.PetsRepository
 class SynchronizePetsWorker(
     context: Context,
     params: WorkerParameters,
-    private val repo: PetsRepository
-): CoroutineWorker(context, params) {
+    private val repo: PetsRepository,
+) : CoroutineWorker(context, params) {
 
     override suspend fun doWork(): Result =
         try {
@@ -24,4 +24,3 @@ class SynchronizePetsWorker(
             Result.retry()
         }
 }
-

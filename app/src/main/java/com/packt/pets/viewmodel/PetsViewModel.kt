@@ -1,6 +1,5 @@
 package com.packt.pets.viewmodel
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.work.Constraints
@@ -9,11 +8,9 @@ import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequest
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
-import androidx.work.WorkRequest
 import com.packt.pets.data.Cat
 import com.packt.pets.data.NetworkResult
 import com.packt.pets.data.PetsRepository
-import com.packt.pets.data.asNetworkResult
 import com.packt.pets.workers.SynchronizePetsWorker
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -22,9 +19,9 @@ import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 
 class PetsViewModel(
-    private val petsRepository: PetsRepository,// = PetsRepositoryDemo()
-    private val workManager: WorkManager?
-): ViewModel() {
+    private val petsRepository: PetsRepository,
+    private val workManager: WorkManager?,
+) : ViewModel() {
 
     private val mPetListUISTate = MutableStateFlow(PetListUIState())
     private val mFavoritePetList: MutableStateFlow<List<Cat>> = MutableStateFlow(emptyList())
@@ -32,7 +29,6 @@ class PetsViewModel(
 
     val petListUISTate: StateFlow<PetListUIState>
         get() = mPetListUISTate
-
 
     val favoritePetList: StateFlow<List<Cat>>
         get() = mFavoritePetList
@@ -46,8 +42,9 @@ class PetsViewModel(
     val selectedPet: StateFlow<Cat?>
         get() = mSelectedPet
 
-    fun setSelectedPet(pet: Cat?) { mSelectedPet.value = pet }
-
+    fun setSelectedPet(pet: Cat?) {
+        mSelectedPet.value = pet
+    }
 
     fun getPets() {
         mPetListUISTate.value = PetListUIState(isLoading = true)
@@ -95,7 +92,7 @@ class PetsViewModel(
             workManager.enqueueUniqueWork(
                 uniqueWorkName = "SynchronizePets",
                 existingWorkPolicy = ExistingWorkPolicy.KEEP,
-                request = workRequest
+                request = workRequest,
             )
         }
     }
@@ -107,11 +104,11 @@ class PetsViewModel(
     }
 
     // Leaking
-    //var context: Context? = null
+    // var context: Context? = null
 }
 
 data class PetListUIState(
     val isLoading: Boolean = false,
     val pets: List<Cat> = emptyList(),
-    val error: String? = null
+    val error: String? = null,
 )

@@ -33,12 +33,13 @@ fun AppNavigation() {
     val favoriteListState = rememberLazyListState()
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
-    //val currentDestination = navBackStackEntry?.destination
-    //selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true
+    // val currentDestination = navBackStackEntry?.destination
+    // selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true
     val currentRoute: String? = navBackStackEntry?.destination?.route
 
-    if (navigationType.contentType == ContentType.LIST_AND_DETAIL
-        && isRouteCurrent(Route.PetDetails::class, currentRoute)) {
+    if (navigationType.contentType == ContentType.LIST_AND_DETAIL &&
+        isRouteCurrent(Route.PetDetails::class, currentRoute)
+    ) {
         navController.popBackStack()
     }
 
@@ -91,17 +92,16 @@ fun AppNavigation() {
             drawerState = drawerState,
             onNavButtonClicked = {
                 navigation(it)
-                //menuDrawer(false)
+                // menuDrawer(false)
             },
-            onCloseGesture = { menuDrawer(false) }
+            onCloseGesture = { menuDrawer(false) },
         ) {
-            Row(modifier = Modifier.fillMaxSize())
-            {
+            Row(modifier = Modifier.fillMaxSize()) {
                 if (navigationType.navControlType == NavControlType.NAVIGATION_RAIL) {
                     NavRail(
                         currentRoute = currentRoute,
                         onMenuIconClicked = { menuDrawer(true) },
-                        onNavButtonClicked = navigation
+                        onNavButtonClicked = navigation,
                     )
                 }
 
@@ -114,11 +114,10 @@ fun AppNavigation() {
                     favoriteListState = favoriteListState,
                     navController = navController,
                 )
-
             }
         }
     }
 }
 
-fun <T: Route> isRouteCurrent(routeClass: KClass<T>, currentRoute: String?): Boolean =
+fun <T : Route> isRouteCurrent(routeClass: KClass<T>, currentRoute: String?): Boolean =
     routeClass.qualifiedName?.let { currentRoute?.contains(it) } ?: false

@@ -22,13 +22,12 @@ class PetsDBTypeConverters {
     @TypeConverter
     fun convertStringToTagList(string: String): List<String> =
         Json.decodeFromString(string)
-
 }
 
 @Database(
     entities = [CatEntity::class],
     version = 2,
-    autoMigrations = [AutoMigration(from = 1, to = 2)]
+    autoMigrations = [AutoMigration(from = 1, to = 2)],
 )
 @TypeConverters(PetsDBTypeConverters::class)
 abstract class PetsDatabase : RoomDatabase() {

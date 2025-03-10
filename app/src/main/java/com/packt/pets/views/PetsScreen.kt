@@ -18,7 +18,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -42,21 +41,20 @@ fun PetsScreen(
     modifier: Modifier = Modifier,
     listState: LazyListState,
     petsViewModel: PetsViewModel,
-    onPetClicked: (Cat) -> Unit
+    onPetClicked: (Cat) -> Unit,
 ) {
-    //if (petsViewModel.context == null)
+    // if (petsViewModel.context == null)
     //    petsViewModel.context = LocalContext.current
 
 //    val petsViewModel: PetsViewModel = viewModel()
     val uiState by petsViewModel.petListUISTate.collectAsStateWithLifecycle()
 
     Box(contentAlignment = Alignment.Center, modifier = modifier) {
-
         AnimatedVisibility(visible = uiState.isLoading) {
             CircularProgressIndicator()
         }
         AnimatedVisibility(visible = uiState.pets.isNotEmpty()) {
-            //var selectedPet by remember { mutableStateOf(uiState.pets.first()) }
+            // var selectedPet by remember { mutableStateOf(uiState.pets.first()) }
             val selectedPet by petsViewModel.selectedPet.collectAsStateWithLifecycle()
 
             var rightPanelWidth = 0.dp
@@ -72,7 +70,7 @@ fun PetsScreen(
                 Row(
                     horizontalArrangement = Arrangement.SpaceEvenly,
                     verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier.fillMaxSize(),
                 ) {
                     PetList(
                         pets = uiState.pets,
@@ -80,35 +78,39 @@ fun PetsScreen(
                         onFavoritePetClicked = { petsViewModel.updatePet(it) },
                         modifier = Modifier.weight(1f),
                         selectedPet = selectedPet,
-                        listState = listState
+                        listState = listState,
                     )
 
                     VerticalDivider()
 
-                    val modifierDetails = if (rightPanelWidth > 0.dp)
+                    val modifierDetails = if (rightPanelWidth > 0.dp) {
                         Modifier.requiredWidth(rightPanelWidth)
-                    else
+                    } else {
                         Modifier.weight(2f)
+                    }
 
                     PetDetails(
                         pet = selectedPet,
-                        modifier = modifierDetails
+                        modifier = modifierDetails,
                     )
                 }
             } else {
                 PetList(
                     pets = uiState.pets,
-                    onPetClicked = { petsViewModel.setSelectedPet(it); onPetClicked(it) },
+                    onPetClicked = {
+                        petsViewModel.setSelectedPet(it)
+                        onPetClicked(it)
+                    },
                     onFavoritePetClicked = { petsViewModel.updatePet(it) },
                     modifier = Modifier.fillMaxSize(),
-                    listState = listState
+                    listState = listState,
                 )
             }
         }
         AnimatedVisibility(visible = uiState.error != null) {
             Text(
                 text = "Loading error: ${uiState.error ?: ""}",
-                modifier = Modifier.padding(16.dp)
+                modifier = Modifier.padding(16.dp),
             )
         }
     }
@@ -122,12 +124,11 @@ fun PetsListPreview() {
             navigationType = NavigationType(
                 NavControlType.BOTTOM_NAVIGATION,
                 ContentType.LIST,
-                Rect()
+                Rect(),
             ),
             listState = rememberLazyListState(),
             petsViewModel = koinViewModel(),
-            onPetClicked = { }
+            onPetClicked = { },
         )
     }
 }
-

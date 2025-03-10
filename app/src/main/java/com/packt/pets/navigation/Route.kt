@@ -2,7 +2,6 @@ package com.packt.pets.navigation
 
 import com.packt.pets.data.Cat
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 /**

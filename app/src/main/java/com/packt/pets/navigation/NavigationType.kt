@@ -17,15 +17,18 @@ import kotlin.contracts.contract
 data class NavigationType(
     val navControlType: NavControlType,
     val contentType: ContentType,
-    val featureBounds: Rect
+    val featureBounds: Rect,
 )
 
 enum class NavControlType {
-    BOTTOM_NAVIGATION, NAVIGATION_DRAWER, NAVIGATION_RAIL
+    BOTTOM_NAVIGATION,
+    NAVIGATION_DRAWER,
+    NAVIGATION_RAIL,
 }
 
 enum class ContentType {
-    LIST, LIST_AND_DETAIL
+    LIST,
+    LIST_AND_DETAIL,
 }
 
 /**
@@ -49,7 +52,7 @@ enum class ContentType {
  */
 fun determineNavigationType(
     windowSizeClass: WindowSizeClass,
-    foldingFeature: FoldingFeature?
+    foldingFeature: FoldingFeature?,
 ): NavigationType {
     var navControlType = NavControlType.NAVIGATION_RAIL
     var contentType = ContentType.LIST
@@ -79,7 +82,7 @@ fun isVerticallySeparated(foldingFeature: FoldingFeature?): Boolean {
     contract { returns(true) implies(foldingFeature != null) }
 
     return (foldingFeature?.orientation == FoldingFeature.Orientation.VERTICAL) &&
-            (foldingFeature.state == FoldingFeature.State.FLAT) && (foldingFeature.isSeparating)
+        (foldingFeature.state == FoldingFeature.State.FLAT) && (foldingFeature.isSeparating)
 }
 
 @OptIn(ExperimentalContracts::class)
@@ -87,5 +90,5 @@ fun isBookPostured(foldingFeature: FoldingFeature?): Boolean {
     contract { returns(true) implies(foldingFeature != null) }
 
     return (foldingFeature?.orientation == FoldingFeature.Orientation.VERTICAL) &&
-            (foldingFeature.state == FoldingFeature.State.HALF_OPENED)
+        (foldingFeature.state == FoldingFeature.State.HALF_OPENED)
 }

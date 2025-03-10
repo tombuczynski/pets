@@ -14,8 +14,6 @@ import com.packt.pets.data.PetsRepositoryCataas
 import com.packt.pets.data.PetsRepositoryDemo
 import com.packt.pets.viewmodel.PetsViewModel
 import com.packt.pets.workers.SynchronizePetsWorker
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
@@ -43,7 +41,7 @@ val appModules = module {
             // Toggles visibility of the notification
             showNotification = true,
             // Allows to customize the retention period of collected data
-            retentionPeriod = RetentionManager.Period.ONE_HOUR
+            retentionPeriod = RetentionManager.Period.ONE_HOUR,
         )
 
         // Create the Interceptor
@@ -81,7 +79,7 @@ val appModules = module {
         Room.databaseBuilder(
             androidContext(),
             PetsDatabase::class.java,
-            PETS_DATABASE_NAME
+            PETS_DATABASE_NAME,
         ).build()
     }
 

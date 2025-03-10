@@ -7,7 +7,6 @@ import android.content.pm.PackageManager.PERMISSION_GRANTED
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
@@ -35,7 +34,7 @@ import com.packt.pets.R
 fun PermissionDialog(
     permission: String,
     modifier: Modifier = Modifier,
-    onPermissionAction: (PermissionStatus) -> Unit
+    onPermissionAction: (PermissionStatus) -> Unit,
 ) {
     val context = LocalContext.current
 
@@ -43,7 +42,7 @@ fun PermissionDialog(
     var dialogState by remember(permission) { mutableIntStateOf(0) }
 
     val permissionDialog = rememberLauncherForActivityResult(
-        ActivityResultContracts.RequestPermission()
+        ActivityResultContracts.RequestPermission(),
     ) { isGranted ->
         currentOnPermissionAction(if (isGranted) PermissionStatus.GRANTED else PermissionStatus.DENIED)
     }
@@ -60,7 +59,7 @@ fun PermissionDialog(
                 }
             },
             properties = DialogProperties(dismissOnClickOutside = false),
-            modifier = modifier
+            modifier = modifier,
         )
     }
 
@@ -70,7 +69,6 @@ fun PermissionDialog(
 
             if (actualPermStatus == PermissionStatus.GRANTED) {
                 currentOnPermissionAction(actualPermStatus)
-
             } else if (actualPermStatus == PermissionStatus.DENIED) {
                 dialogState =
                     if (shouldShowRequestPermissionRationale(context, permission)) 1 else 2
@@ -81,20 +79,18 @@ fun PermissionDialog(
     }
 }
 
-
 enum class PermissionStatus { UNKNOWN, GRANTED, DENIED }
 
 private fun shouldShowRequestPermissionRationale(context: Context, permission: String): Boolean {
-
     val activity = context as? Activity ?: return false
 
     return ActivityCompat.shouldShowRequestPermissionRationale(context, permission)
 }
 
 private fun checkPermissionStatus(context: Context, permission: String): PermissionStatus {
-   return when (ContextCompat.checkSelfPermission(context, permission)) {
-       PERMISSION_GRANTED -> PermissionStatus.GRANTED
-       PERMISSION_DENIED -> PermissionStatus.DENIED
-       else -> PermissionStatus.UNKNOWN
-   }
+    return when (ContextCompat.checkSelfPermission(context, permission)) {
+        PERMISSION_GRANTED -> PermissionStatus.GRANTED
+        PERMISSION_DENIED -> PermissionStatus.DENIED
+        else -> PermissionStatus.UNKNOWN
+    }
 }

@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
  * Created by Tom Buczynski on 24.11.2024.
  */
 @Serializable
-data class Cat (
+data class Cat(
     @SerialName("id")
     val id: String,
 

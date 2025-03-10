@@ -20,7 +20,7 @@ import androidx.compose.ui.Modifier
 fun BottomNavBar(currentRoute: String?, onNavButoonClicked: (Route) -> Unit) {
     NavigationBar(
         modifier = Modifier.fillMaxWidth(),
-        containerColor = MaterialTheme.colorScheme.surfaceContainer
+        containerColor = MaterialTheme.colorScheme.surfaceContainer,
     ) {
         NavigationBarItem(
             selected = isRouteCurrent(Route.Pets::class, currentRoute),
@@ -28,12 +28,12 @@ fun BottomNavBar(currentRoute: String?, onNavButoonClicked: (Route) -> Unit) {
             icon = {
                 Icon(
                     imageVector = Icons.Rounded.Home,
-                    contentDescription = "All Pets (Home)"
+                    contentDescription = "All Pets (Home)",
                 )
             },
             label = {
                 Text(text = "All Pets")
-            }
+            },
         )
 
         NavigationBarItem(
@@ -42,12 +42,12 @@ fun BottomNavBar(currentRoute: String?, onNavButoonClicked: (Route) -> Unit) {
             icon = {
                 Icon(
                     imageVector = Icons.Rounded.Favorite,
-                    contentDescription = "Favorite Pets"
+                    contentDescription = "Favorite Pets",
                 )
             },
             label = {
                 Text(text = "Favorities")
-            }
+            },
         )
     }
 }

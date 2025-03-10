@@ -48,16 +48,15 @@ fun PetList(
     onFavoritePetClicked: (Cat) -> Unit,
     modifier: Modifier = Modifier,
     selectedPet: Cat? = null,
-    listState: LazyListState = rememberLazyListState()
+    listState: LazyListState = rememberLazyListState(),
 ) {
     val previewHandler = AsyncImagePreviewHandler {
         ColorImage(
-            color = Color.Red.toArgb()
+            color = Color.Red.toArgb(),
         )
     }
 
     CompositionLocalProvider(LocalAsyncImagePreviewHandler provides previewHandler) {
-
         LazyColumn(modifier = modifier, state = listState) {
             items(pets) { pet ->
                 PetListItem(
@@ -82,12 +81,14 @@ fun PetListItem(
     modifier: Modifier = Modifier,
     onPetClicked: (Cat) -> Unit,
     onFavoritePetClicked: (Cat) -> Unit,
-    isSelected: Boolean = false
+    isSelected: Boolean = false,
 ) {
     val borderModifier =
-        if (isSelected) Modifier.border(1.dp, MaterialTheme.colorScheme.primary, CardDefaults.elevatedShape)
-    else
-        Modifier
+        if (isSelected) {
+            Modifier.border(1.dp, MaterialTheme.colorScheme.primary, CardDefaults.elevatedShape)
+        } else {
+            Modifier
+        }
 
     ElevatedCard(
 //        colors =
@@ -96,7 +97,7 @@ fun PetListItem(
 //            ),
         modifier = modifier
             .padding(8.dp) then borderModifier
-            .selectable(isSelected) { onPetClicked(pet) }
+            .selectable(isSelected) { onPetClicked(pet) },
     ) {
         Column(modifier = Modifier.fillMaxWidth()) {
             AsyncImage(
@@ -105,13 +106,13 @@ fun PetListItem(
                 modifier = Modifier
                     .height(250.dp)
                     .fillMaxWidth(),
-                contentScale = ContentScale.FillWidth
+                contentScale = ContentScale.FillWidth,
             )
             Spacer(Modifier.height(10.dp))
             Row(
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 3.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 FlowRow(modifier = Modifier.weight(1f).padding(end = 3.dp)) {
                     pet.tags.forEach {
@@ -121,7 +122,7 @@ fun PetListItem(
                                 onClick = {},
                                 label = {
                                     Text(text = it)
-                                }
+                                },
                             )
                         }
                     }

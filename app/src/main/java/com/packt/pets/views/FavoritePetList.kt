@@ -38,23 +38,23 @@ fun FavoritePetList(
     @PreviewParameter(PetListPreviewParameterProvider::class) pets: List<Cat>,
     modifier: Modifier = Modifier,
     onFavoritePetClicked: (Cat) -> Unit = { },
-    listState: LazyListState = rememberLazyListState()
+    listState: LazyListState = rememberLazyListState(),
 ) {
     val previewHandler = AsyncImagePreviewHandler {
         ColorImage(
             color = Color.Blue.toArgb(),
-            height = 800
+            height = 800,
         )
     }
 
     CompositionLocalProvider(LocalAsyncImagePreviewHandler provides previewHandler) {
-
         LazyColumn(modifier = modifier, state = listState) {
             items(pets) { pet ->
                 FavoritePetListItem(
                     pet = pet,
-                    modifier = Modifier.fillMaxWidth(),//.animateItem(),
-                    onFavoritePetClicked = onFavoritePetClicked
+                    modifier = Modifier.fillMaxWidth(),
+                    // .animateItem(),
+                    onFavoritePetClicked = onFavoritePetClicked,
                 )
             }
         }
@@ -66,16 +66,17 @@ class PetListPreviewParameterProvider : PreviewParameterProvider<List<Cat>> {
         get() = sequenceOf(
             listOf(
                 Cat(
-                    "GUOunrpLPB6Jw0zE", listOf(
+                    "GUOunrpLPB6Jw0zE",
+                    listOf(
                         "handicapped",
                         "tabby",
                         "double",
-                        "multiple"
+                        "multiple",
                     ),
-                    true
+                    true,
                 ),
                 Cat("dmjubveyQIbCFA2v", listOf("orange")),
-            )
+            ),
         )
 }
 
@@ -87,11 +88,11 @@ fun FavoritePetListItem(
 ) {
     ElevatedCard(
         modifier = modifier
-            .padding(8.dp)
+            .padding(8.dp),
     ) {
         Column(
             modifier = Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.End
+            horizontalAlignment = Alignment.End,
         ) {
             AsyncImage(
                 model = "https://cataas.com/cat/${pet.id}",
@@ -99,7 +100,7 @@ fun FavoritePetListItem(
                 modifier = Modifier
 //                    .height(200.dp)
                     .fillMaxWidth(),
-                contentScale = ContentScale.FillWidth
+                contentScale = ContentScale.FillWidth,
             )
             Icon(
                 imageVector = if (pet.isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,

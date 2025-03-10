@@ -18,7 +18,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        //testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        // testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunner = "com.packt.pets.InstrumentationTestRunner"
     }
 
@@ -27,7 +27,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
@@ -67,9 +67,9 @@ dependencies {
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.work.runtime.ktx)
     implementation(libs.kotlinx.serialization.json)
-    implementation(libs.androidx.adaptive.android)
+    implementation(libs.androidx.adaptive)
     testImplementation(libs.junit)
-    //androidTestImplementation(libs.androidx.activity.compose)
+    // androidTestImplementation(libs.androidx.activity.compose)
     androidTestImplementation(libs.androidx.work.testing)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -80,5 +80,4 @@ dependencies {
     debugImplementation(libs.leakcanary.android)
     debugImplementation(libs.library)
     releaseImplementation(libs.library.no.op)
-
 }

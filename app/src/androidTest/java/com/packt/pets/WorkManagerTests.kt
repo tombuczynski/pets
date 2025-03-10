@@ -49,12 +49,10 @@ class WorkManagerTests {
     @Test
     @Throws(Exception::class)
     fun testSynchronizePetsWorker() {
-
         val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .setRequiresBatteryNotLow(true)
             .build()
-
 
         val workRequest: OneTimeWorkRequest =
             OneTimeWorkRequestBuilder<SynchronizePetsWorker>()
@@ -71,7 +69,7 @@ class WorkManagerTests {
         workManager.enqueueUniqueWork(
             uniqueWorkName = "SynchronizePets",
             existingWorkPolicy = ExistingWorkPolicy.KEEP,
-            request = workRequest
+            request = workRequest,
         ).result.get()
 
         var workInfos = workManager.getWorkInfosForUniqueWork("SynchronizePets").get()
@@ -82,6 +80,5 @@ class WorkManagerTests {
 
         workInfos = workManager.getWorkInfosForUniqueWork("SynchronizePets").get()
         assertThat(workInfos.first().state, `is`(WorkInfo.State.RUNNING))
-
     }
 }
