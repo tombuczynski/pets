@@ -38,9 +38,7 @@ class PetsRepositoryDemo : PetsRepository {
         return flowOf(emptyList())
     }
 
-    override suspend fun updatePet(pet: Cat) {
-    }
+    override suspend fun updatePet(pet: Cat) = Unit
 
-    override suspend fun fetchPetsRemotely() {
-    }
+    override suspend fun fetchPetsRemotely() = Unit
 }

@@ -84,7 +84,7 @@ enum class PermissionStatus { UNKNOWN, GRANTED, DENIED }
 private fun shouldShowRequestPermissionRationale(context: Context, permission: String): Boolean {
     val activity = context as? Activity ?: return false
 
-    return ActivityCompat.shouldShowRequestPermissionRationale(context, permission)
+    return ActivityCompat.shouldShowRequestPermissionRationale(activity, permission)
 }
 
 private fun checkPermissionStatus(context: Context, permission: String): PermissionStatus {

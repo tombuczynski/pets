@@ -9,7 +9,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.packt.pets.navigation.NavigationType
 import com.packt.pets.viewmodel.PetsViewModel
 
 /**
@@ -18,10 +17,9 @@ import com.packt.pets.viewmodel.PetsViewModel
 
 @Composable
 fun FavoritePetsScreen(
-    navigationType: NavigationType,
-    modifier: Modifier = Modifier,
     listState: LazyListState,
     petsViewModel: PetsViewModel,
+    modifier: Modifier = Modifier,
 ) {
     val pets by petsViewModel.favoritePetList.collectAsStateWithLifecycle()
 

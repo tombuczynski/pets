@@ -61,9 +61,9 @@ fun PetList(
             items(pets) { pet ->
                 PetListItem(
                     pet = pet,
-                    modifier = Modifier.fillMaxWidth(),
                     onPetClicked = onPetClicked,
                     onFavoritePetClicked = onFavoritePetClicked,
+                    modifier = Modifier.fillMaxWidth(),
                     isSelected = selectedPet == pet,
                 )
             }
@@ -78,9 +78,9 @@ fun PetList(
 @Composable
 fun PetListItem(
     pet: Cat,
-    modifier: Modifier = Modifier,
     onPetClicked: (Cat) -> Unit,
     onFavoritePetClicked: (Cat) -> Unit,
+    modifier: Modifier = Modifier,
     isSelected: Boolean = false,
 ) {
     val borderModifier =

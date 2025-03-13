@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.kotlin.ksp) apply false
     alias(libs.plugins.room) apply false
     alias(libs.plugins.ktlint) apply false
+    alias(libs.plugins.detekt) apply true
 }
 
 subprojects {
@@ -19,5 +20,15 @@ subprojects {
         filter {
             exclude("**/generated/**")
         }
+    }
+
+    apply(plugin = "io.gitlab.arturbosch.detekt")
+    detekt {
+        parallel = true
+        config.setFrom(files("${project.rootDir}/config/detekt/detekt.yml"))
+    }
+
+    dependencies {
+       detektPlugins("io.nlopez.compose.rules:detekt:0.4.22")
     }
 }

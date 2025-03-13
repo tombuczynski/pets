@@ -4,6 +4,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
+import java.io.IOException
+
+private const val ITEMS_COUNT = 20
 
 /**
  * Created by Tom Buczynski on 26.11.2024.
@@ -34,7 +37,7 @@ class PetsRepositoryCataas(
                             fetchPetsRemotely()
                         }
                         result
-                    } catch (e: Exception) {
+                    } catch (e: IOException) {
                         NetworkResult.Error(e.message ?: "Unknown error")
                     }
                 } else {
@@ -78,7 +81,7 @@ class PetsRepositoryCataas(
 
     override suspend fun fetchPetsRemotely() {
         withContext(Dispatchers.IO) {
-            val response = api.fetchCats("cute", 20)
+            val response = api.fetchCats("cute", ITEMS_COUNT)
 
             if (response.isSuccessful) {
                 val cats = response.body() ?: emptyList()
@@ -95,7 +98,7 @@ class PetsRepositoryCataas(
                     )
                 }
             } else {
-                throw Exception(response.errorBody().toString())
+                throw IOException(response.errorBody().toString())
             }
         }
     }

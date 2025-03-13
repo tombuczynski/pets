@@ -38,9 +38,9 @@ import org.koin.compose.KoinApplication
 @Composable
 fun PetsScreen(
     navigationType: NavigationType,
-    modifier: Modifier = Modifier,
     listState: LazyListState,
     petsViewModel: PetsViewModel,
+    modifier: Modifier = Modifier,
     onPetClicked: (Cat) -> Unit,
 ) {
     // if (petsViewModel.context == null)
@@ -128,7 +128,6 @@ fun PetsListPreview() {
             ),
             listState = rememberLazyListState(),
             petsViewModel = koinViewModel(),
-            onPetClicked = { },
-        )
+        ) { }
     }
 }

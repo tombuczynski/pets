@@ -72,9 +72,9 @@ fun NavigationContent(
             if (permissionStatus == PermissionStatus.GRANTED) {
                 PetsScreen(
                     navigationType = navigationType,
-                    modifier = Modifier.fillMaxSize(),
-                    petsViewModel = petsViewModel,
                     listState = listState,
+                    petsViewModel = petsViewModel,
+                    modifier = Modifier.fillMaxSize(),
                 ) {
                     navController.navigate(Route.PetDetails(it))
                 }
@@ -86,10 +86,9 @@ fun NavigationContent(
         composable<Route.FavoritePets> {
             if (permissionStatus == PermissionStatus.GRANTED) {
                 FavoritePetsScreen(
-                    navigationType = navigationType,
-                    modifier = Modifier.fillMaxSize(),
-                    petsViewModel = petsViewModel,
                     listState = favoriteListState,
+                    petsViewModel = petsViewModel,
+                    modifier = Modifier.fillMaxSize(),
                 )
             } else {
                 Box(modifier = Modifier.fillMaxSize())

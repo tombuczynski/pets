@@ -21,6 +21,8 @@ import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 
+private const val MOVE_DET_THRESHOLD = -3f
+
 /**
  * Created by Tom Buczynski on 02.01.2025.
  */
@@ -45,7 +47,7 @@ fun NavDrawer(
         modifier = Modifier
             .pointerInput(Unit) {
                 detectHorizontalDragGestures { _, dragAmount ->
-                    if (onCloseGesture != null && (dragAmount < -3f) &&
+                    if (onCloseGesture != null && (dragAmount < MOVE_DET_THRESHOLD) &&
                         drawerState.isOpen && !drawerState.isAnimationRunning
                     ) {
                         onCloseGesture()

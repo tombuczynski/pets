@@ -19,6 +19,7 @@ work = "2.10.0"
 leakcanary = "2.14"
 chucker = "4.1.0"
 ktlint = "12.2.0"
+detekt = "1.23.8"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -63,6 +64,7 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 kotlin-ksp = { id = "com.google.devtools.ksp", version.ref = "kotlin-ksp"}
 room = { id = "androidx.room", version.ref = "room" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 
 [bundles]
 koin = ["koin-core", "koin-android", "koin-androidx-compose", "koin-androidx-workmanager"]

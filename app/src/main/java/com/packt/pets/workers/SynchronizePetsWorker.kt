@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.packt.pets.data.PetsRepository
+import java.io.IOException
 
 /**
  * Created by Tom Buczynski on 03.02.2025.
@@ -19,7 +20,7 @@ class SynchronizePetsWorker(
         try {
             repo.fetchPetsRemotely()
             Result.success()
-        } catch (e: Exception) {
+        } catch (e: IOException) {
             Log.e("SynchronizePetsWorker", "doWork: " + e.message)
             Result.retry()
         }
