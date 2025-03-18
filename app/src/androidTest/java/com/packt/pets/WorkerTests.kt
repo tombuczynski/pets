@@ -7,6 +7,7 @@ import androidx.work.ListenableWorker.Result
 import androidx.work.testing.TestListenableWorkerBuilder
 import com.packt.pets.workers.SynchronizePetsWorker
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
@@ -34,7 +35,7 @@ class WorkerTests {
             .setWorkerFactory(KoinWorkerFactory())
             .build()
 
-        runBlocking {
+        runTest {
             val result = worker.doWork()
 
             assertThat(result, `is`(Result.success()))

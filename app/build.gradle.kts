@@ -44,6 +44,13 @@ android {
     buildFeatures {
         compose = true
     }
+    sourceSets {
+        getByName("main") {
+            resources {
+                srcDirs("src\\main\\resources", "src\\test\\resources")
+            }
+        }
+    }
 
     room {
         schemaDirectory("$projectDir/schemas")
@@ -69,6 +76,7 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.androidx.adaptive)
     testImplementation(libs.junit)
+    testImplementation(libs.bundles.tests)
     // androidTestImplementation(libs.androidx.activity.compose)
     androidTestImplementation(libs.androidx.work.testing)
     androidTestImplementation(libs.androidx.junit)

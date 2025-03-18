@@ -29,6 +29,7 @@ subprojects {
     }
 
     dependencies {
+       //noinspection UseTomlInstead
        detektPlugins("io.nlopez.compose.rules:detekt:0.4.22")
     }
 }

@@ -44,11 +44,11 @@ import com.packt.pets.data.Cat
 @Composable
 fun PetList(
     pets: List<Cat>,
+    selectedPet: Cat?,
+    modifier: Modifier = Modifier,
+    listState: LazyListState = rememberLazyListState(),
     onPetClicked: (Cat) -> Unit,
     onFavoritePetClicked: (Cat) -> Unit,
-    modifier: Modifier = Modifier,
-    selectedPet: Cat? = null,
-    listState: LazyListState = rememberLazyListState(),
 ) {
     val previewHandler = AsyncImagePreviewHandler {
         ColorImage(

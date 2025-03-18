@@ -5,11 +5,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.packt.pets.viewmodel.PetsViewModel
+import com.packt.pets.data.Cat
 
 /**
  * Created by Tom Buczynski on 28.12.2024.
@@ -17,21 +15,20 @@ import com.packt.pets.viewmodel.PetsViewModel
 
 @Composable
 fun FavoritePetsScreen(
-    listState: LazyListState,
-    petsViewModel: PetsViewModel,
+    favoritePets: List<Cat>,
     modifier: Modifier = Modifier,
+    listState: LazyListState,
+    onFavoritePetClicked: (Cat) -> Unit = {},
 ) {
-    val pets by petsViewModel.favoritePetList.collectAsStateWithLifecycle()
-
     Box(contentAlignment = Alignment.Center, modifier = modifier) {
-        if (pets.isEmpty()) {
+        if (favoritePets.isEmpty()) {
             Text("No Favorite Pets yet !")
         } else {
             FavoritePetList(
-                pets = pets,
+                pets = favoritePets,
                 modifier = Modifier.fillMaxSize(),
                 listState = listState,
-                onFavoritePetClicked = { petsViewModel.updatePet(it) },
+                onFavoritePetClicked = onFavoritePetClicked,
             )
         }
     }

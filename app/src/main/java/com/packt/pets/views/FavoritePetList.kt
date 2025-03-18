@@ -37,8 +37,8 @@ import com.packt.pets.data.Cat
 fun FavoritePetList(
     @PreviewParameter(PetListPreviewParameterProvider::class) pets: List<Cat>,
     modifier: Modifier = Modifier,
-    onFavoritePetClicked: (Cat) -> Unit = { },
     listState: LazyListState = rememberLazyListState(),
+    onFavoritePetClicked: (Cat) -> Unit = { },
 ) {
     val previewHandler = AsyncImagePreviewHandler {
         ColorImage(
@@ -49,10 +49,10 @@ fun FavoritePetList(
 
     CompositionLocalProvider(LocalAsyncImagePreviewHandler provides previewHandler) {
         LazyColumn(modifier = modifier, state = listState) {
-            items(pets) { pet ->
+            items(pets, key = { it.id }) { pet ->
                 FavoritePetListItem(
                     pet = pet,
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth().animateItem(),
                     // .animateItem(),
                     onFavoritePetClicked = onFavoritePetClicked,
                 )

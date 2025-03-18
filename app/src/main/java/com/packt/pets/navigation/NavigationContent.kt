@@ -13,6 +13,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -41,6 +42,15 @@ fun NavigationContent(
     val context = LocalContext.current
 
     val petsViewModel: PetsViewModel = koinViewModel()
+    val favoritePets by petsViewModel.favoritePetList.collectAsStateWithLifecycle()
+    val uiState by petsViewModel.petListUISTate.collectAsStateWithLifecycle()
+    // var selectedPet by remember { mutableStateOf(uiState.pets.first()) }
+    val selectedPet by petsViewModel.selectedPet.collectAsStateWithLifecycle()
+
+    // for LeakCanary tests
+    // if (petsViewModel.context == null)
+    //    petsViewModel.context = LocalContext.current
+
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         PermissionDialog(
@@ -72,12 +82,18 @@ fun NavigationContent(
             if (permissionStatus == PermissionStatus.GRANTED) {
                 PetsScreen(
                     navigationType = navigationType,
-                    listState = listState,
-                    petsViewModel = petsViewModel,
+                    uiState = uiState,
+                    selectedPet = selectedPet,
                     modifier = Modifier.fillMaxSize(),
-                ) {
-                    navController.navigate(Route.PetDetails(it))
-                }
+                    listState = listState,
+                    onPetClicked = {
+                        petsViewModel.setSelectedPet(it)
+
+                        if (navigationType.contentType == ContentType.LIST)
+                            navController.navigate(Route.PetDetails(it))
+                    },
+                    onFavoritePetClicked = { petsViewModel.updatePet(it) },
+                )
             } else {
                 Box(modifier = Modifier.fillMaxSize())
             }
@@ -86,9 +102,10 @@ fun NavigationContent(
         composable<Route.FavoritePets> {
             if (permissionStatus == PermissionStatus.GRANTED) {
                 FavoritePetsScreen(
-                    listState = favoriteListState,
-                    petsViewModel = petsViewModel,
+                    favoritePets = favoritePets,
                     modifier = Modifier.fillMaxSize(),
+                    listState = favoriteListState,
+                    onFavoritePetClicked = { petsViewModel.updatePet(it) },
                 )
             } else {
                 Box(modifier = Modifier.fillMaxSize())

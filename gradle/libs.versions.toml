@@ -7,8 +7,8 @@ junit = "4.13.2"
 junitAndroid = "1.2.1"
 espressoCore = "3.6.1"
 lifecycleRuntimeKtx = "2.8.7"
-composeBom = "2025.02.00"
-navigationCompose = "2.8.8"
+composeBom = "2025.03.00"
+navigationCompose = "2.8.9"
 koin = "4.0.2"
 retrofit = "2.11.0"
 kotlinxSerializationJson = "1.8.0"
@@ -20,6 +20,9 @@ leakcanary = "2.14"
 chucker = "4.1.0"
 ktlint = "12.2.0"
 detekt = "1.23.8"
+mockwebserver = "4.12.0"
+kotlinxCoroutinesTest = "1.10.1"
+truth = "1.4.4"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -55,6 +58,9 @@ androidx-work-testing = { group = "androidx.work", name = "work-testing", versio
 leakcanary-android = { group = "com.squareup.leakcanary", name = "leakcanary-android", version.ref = "leakcanary" }
 library = { group = "com.github.chuckerteam.chucker", name = "library", version.ref = "chucker" }
 library-no-op = { group = "com.github.chuckerteam.chucker", name = "library-no-op", version.ref = "chucker" }
+mockwebserver = { group = "com.squareup.okhttp3", name = "mockwebserver", version.ref = "mockwebserver" }
+kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
+truth = { group = "com.google.truth", name = "truth", version.ref = "truth" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -71,3 +77,4 @@ koin = ["koin-core", "koin-android", "koin-androidx-compose", "koin-androidx-wor
 retrofit = ["retrofit", "converter-kotlinx-serialization", "okhttp" ]
 coil = ["coil-compose", "coil-network-okhttp"]
 room = ["androidx-room-runtime", "androidx-room-ktx"]
+tests = ["mockwebserver", "kotlinx-coroutines-test", "truth"]

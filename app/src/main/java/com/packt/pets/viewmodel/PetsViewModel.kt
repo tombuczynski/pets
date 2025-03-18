@@ -103,7 +103,7 @@ class PetsViewModel(
         startPetsSynchronization()
     }
 
-    // Leaking
+    // for LeakCanary tests
     // var context: Context? = null
 }
 

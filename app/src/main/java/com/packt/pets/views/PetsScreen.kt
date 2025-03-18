@@ -14,7 +14,6 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
@@ -27,6 +26,7 @@ import com.packt.pets.di.appComposePreviewModules
 import com.packt.pets.navigation.ContentType
 import com.packt.pets.navigation.NavControlType
 import com.packt.pets.navigation.NavigationType
+import com.packt.pets.viewmodel.PetListUIState
 import com.packt.pets.viewmodel.PetsViewModel
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.KoinApplication
@@ -38,24 +38,22 @@ import org.koin.compose.KoinApplication
 @Composable
 fun PetsScreen(
     navigationType: NavigationType,
-    listState: LazyListState,
-    petsViewModel: PetsViewModel,
+    uiState: PetListUIState,
+    selectedPet: Cat?,
+    //petsViewModel: PetsViewModel,
     modifier: Modifier = Modifier,
+    listState: LazyListState,
     onPetClicked: (Cat) -> Unit,
+    onFavoritePetClicked: (Cat) -> Unit,
 ) {
-    // if (petsViewModel.context == null)
-    //    petsViewModel.context = LocalContext.current
 
 //    val petsViewModel: PetsViewModel = viewModel()
-    val uiState by petsViewModel.petListUISTate.collectAsStateWithLifecycle()
 
     Box(contentAlignment = Alignment.Center, modifier = modifier) {
         AnimatedVisibility(visible = uiState.isLoading) {
             CircularProgressIndicator()
         }
         AnimatedVisibility(visible = uiState.pets.isNotEmpty()) {
-            // var selectedPet by remember { mutableStateOf(uiState.pets.first()) }
-            val selectedPet by petsViewModel.selectedPet.collectAsStateWithLifecycle()
 
             var rightPanelWidth = 0.dp
             if (navigationType.featureBounds.height() > 0) {
@@ -74,11 +72,11 @@ fun PetsScreen(
                 ) {
                     PetList(
                         pets = uiState.pets,
-                        onPetClicked = { petsViewModel.setSelectedPet(it) },
-                        onFavoritePetClicked = { petsViewModel.updatePet(it) },
-                        modifier = Modifier.weight(1f),
                         selectedPet = selectedPet,
+                        modifier = Modifier.weight(1f),
                         listState = listState,
+                        onPetClicked = onPetClicked,
+                        onFavoritePetClicked = onFavoritePetClicked,
                     )
 
                     VerticalDivider()
@@ -97,13 +95,11 @@ fun PetsScreen(
             } else {
                 PetList(
                     pets = uiState.pets,
-                    onPetClicked = {
-                        petsViewModel.setSelectedPet(it)
-                        onPetClicked(it)
-                    },
-                    onFavoritePetClicked = { petsViewModel.updatePet(it) },
+                    selectedPet = null,
                     modifier = Modifier.fillMaxSize(),
                     listState = listState,
+                    onPetClicked = onPetClicked,
+                    onFavoritePetClicked = onFavoritePetClicked,
                 )
             }
         }
@@ -120,14 +116,19 @@ fun PetsScreen(
 @Composable
 fun PetsListPreview() {
     KoinApplication(application = { modules(appComposePreviewModules) }) {
+        val uiState = koinViewModel<PetsViewModel>().petListUISTate.collectAsStateWithLifecycle()
+
         PetsScreen(
             navigationType = NavigationType(
                 NavControlType.BOTTOM_NAVIGATION,
                 ContentType.LIST,
                 Rect(),
             ),
+            uiState = uiState.value,
+            selectedPet = null,
             listState = rememberLazyListState(),
-            petsViewModel = koinViewModel(),
-        ) { }
+            onPetClicked = {},
+            onFavoritePetClicked = {},
+        )
     }
 }
