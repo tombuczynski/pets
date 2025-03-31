@@ -48,7 +48,6 @@ class WebApiTests {
     private lateinit var api: CataasApi;
 
     @Before
-    @Throws(IOException::class)
     fun setup() {
         webServer = MockWebServer()
         webServer.dispatcher = requestDispatcher

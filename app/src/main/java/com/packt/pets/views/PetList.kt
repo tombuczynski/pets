@@ -16,6 +16,7 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
@@ -32,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import coil3.ColorImage
 import coil3.annotation.ExperimentalCoilApi
@@ -58,7 +60,7 @@ fun PetList(
 
     CompositionLocalProvider(LocalAsyncImagePreviewHandler provides previewHandler) {
         LazyColumn(modifier = modifier, state = listState) {
-            items(pets) { pet ->
+            items(pets, key = { pet -> pet.id }) { pet ->
                 PetListItem(
                     pet = pet,
                     onPetClicked = onPetClicked,
@@ -97,9 +99,10 @@ fun PetListItem(
 //            ),
         modifier = modifier
             .padding(8.dp) then borderModifier
+            .testTag("PetListItemCard")
             .selectable(isSelected) { onPetClicked(pet) },
     ) {
-        Column(modifier = Modifier.fillMaxWidth()) {
+        Column(modifier = Modifier.fillMaxWidth().testTag("PetListItemColumn")) {
             AsyncImage(
                 model = "https://cataas.com/cat/${pet.id}",
                 contentDescription = "Cute Cat",
@@ -131,9 +134,12 @@ fun PetListItem(
                     imageVector = if (pet.isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                     tint = if (pet.isFavorite) Color.Red else Color.Gray,
                     contentDescription = "Favorite",
-                    modifier = Modifier.clickable {
-                        onFavoritePetClicked(pet.copy(isFavorite = !pet.isFavorite))
+                    modifier = Modifier.toggleable(pet.isFavorite) {
+                        onFavoritePetClicked(pet.copy(isFavorite = it))
                     },
+//                    modifier = Modifier.clickable {
+//                        onFavoritePetClicked(pet)
+//                    },
                 )
             }
         }

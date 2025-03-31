@@ -52,8 +52,7 @@ fun FavoritePetList(
             items(pets, key = { it.id }) { pet ->
                 FavoritePetListItem(
                     pet = pet,
-                    modifier = Modifier.fillMaxWidth().animateItem(),
-                    // .animateItem(),
+                    modifier = Modifier.fillMaxWidth(),//.animateItem(),
                     onFavoritePetClicked = onFavoritePetClicked,
                 )
             }
@@ -107,7 +106,7 @@ fun FavoritePetListItem(
                 tint = if (pet.isFavorite) Color.Red else Color.Gray,
                 contentDescription = "Favorite",
                 modifier = Modifier.padding(4.dp).clickable {
-                    onFavoritePetClicked(pet.copy(isFavorite = false))
+                    onFavoritePetClicked(pet)
                 },
             )
         }

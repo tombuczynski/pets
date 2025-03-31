@@ -51,7 +51,6 @@ fun NavigationContent(
     // if (petsViewModel.context == null)
     //    petsViewModel.context = LocalContext.current
 
-
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         PermissionDialog(
             permission = Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -92,7 +91,7 @@ fun NavigationContent(
                         if (navigationType.contentType == ContentType.LIST)
                             navController.navigate(Route.PetDetails(it))
                     },
-                    onFavoritePetClicked = { petsViewModel.updatePet(it) },
+                    onFavoritePetClicked = { petsViewModel.updatePet(it)},
                 )
             } else {
                 Box(modifier = Modifier.fillMaxSize())
@@ -105,7 +104,7 @@ fun NavigationContent(
                     favoritePets = favoritePets,
                     modifier = Modifier.fillMaxSize(),
                     listState = favoriteListState,
-                    onFavoritePetClicked = { petsViewModel.updatePet(it) },
+                    onFavoritePetClicked = { petsViewModel.updatePet(it.copy(isFavorite = false)) },
                 )
             } else {
                 Box(modifier = Modifier.fillMaxSize())
