@@ -21,7 +21,7 @@ class SynchronizePetsWorker(
             repo.fetchPetsRemotely()
             Result.success()
         } catch (e: IOException) {
-            Log.e("SynchronizePetsWorker", "doWork: " + e.message)
+            //Log.e("SynchronizePetsWorker", "doWork: " + e.message)
             Result.retry()
         }
 }
