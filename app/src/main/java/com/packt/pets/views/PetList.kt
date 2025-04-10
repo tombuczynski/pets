@@ -1,7 +1,6 @@
 package com.packt.pets.views
 
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -47,9 +46,9 @@ import com.packt.pets.data.Cat
 fun PetList(
     pets: List<Cat>,
     selectedPet: Cat?,
+    onPetClicked: (Cat) -> Unit,
     modifier: Modifier = Modifier,
     listState: LazyListState = rememberLazyListState(),
-    onPetClicked: (Cat) -> Unit,
     onFavoritePetClicked: (Cat) -> Unit,
 ) {
     val previewHandler = AsyncImagePreviewHandler {

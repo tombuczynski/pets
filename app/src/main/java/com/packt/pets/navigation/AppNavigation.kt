@@ -1,6 +1,5 @@
 package com.packt.pets.navigation
 
-import android.util.Log
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -121,6 +120,6 @@ fun AppNavigation() {
 }
 
 fun <T : Route> isRouteCurrent(routeClass: KClass<T>, currentRoute: String?): Boolean {
-    //Log.i("isRouteCurrent", "currentRoute: $currentRoute, routeClass: ${routeClass.qualifiedName} ")
+    // Log.i("isRouteCurrent", "currentRoute: $currentRoute, routeClass: ${routeClass.qualifiedName} ")
     return routeClass.qualifiedName?.let { currentRoute?.contains(it) } == true
 }

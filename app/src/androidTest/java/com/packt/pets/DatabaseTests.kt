@@ -42,7 +42,6 @@ class DatabaseTests {
     @Test
     @Throws(Exception::class)
     fun testInsertItem() {
-
         runTest {
             val cat = CatEntity(
                 id = "GUOunrpLPB6Jw0zE",
@@ -54,7 +53,7 @@ class DatabaseTests {
                 ),
                 createdAt = "2024-06-18T09:46:45.702Z",
                 updatedAt = "",
-                owner = ""
+                owner = "",
             )
 
             dao.insert(cat)
@@ -79,7 +78,7 @@ class DatabaseTests {
                 createdAt = "2024-06-18T09:46:45.702Z",
                 updatedAt = "",
                 owner = "",
-                isFavorite = false
+                isFavorite = false,
             )
 
             val favoriteCat = cat.copy(isFavorite = true)
@@ -102,5 +101,4 @@ class DatabaseTests {
     fun tearDown() {
         database.close()
     }
-
 }

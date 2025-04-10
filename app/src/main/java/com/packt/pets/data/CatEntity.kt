@@ -20,4 +20,3 @@ data class CatEntity(
     @ColumnInfo(name = "updated_at") val updatedAt: String,
     val owner: String,
 )
-

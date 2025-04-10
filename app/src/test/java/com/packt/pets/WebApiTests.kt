@@ -1,7 +1,7 @@
 package com.packt.pets
 
 import com.google.common.io.Resources
-import com.google.common.truth.Truth.*
+import com.google.common.truth.Truth.assertWithMessage
 import com.packt.pets.data.CataasApi
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.Json
@@ -23,7 +23,6 @@ import java.io.IOException
 
 val requestDispatcher = object : Dispatcher() {
     override fun dispatch(request: RecordedRequest): MockResponse {
-
         return if (request.path != null && request.path!!.startsWith("/cats?tags=")) {
             MockResponse().setResponseCode(200).setBody(getJsonResponse("catsresponse.json"))
         } else {
@@ -44,8 +43,8 @@ private val json = Json {
 }
 
 class WebApiTests {
-    private lateinit var webServer: MockWebServer;
-    private lateinit var api: CataasApi;
+    private lateinit var webServer: MockWebServer
+    private lateinit var api: CataasApi
 
     @Before
     fun setup() {

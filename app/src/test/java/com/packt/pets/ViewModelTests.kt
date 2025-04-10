@@ -1,19 +1,19 @@
 package com.packt.pets
 
+import com.google.common.truth.Truth.assertThat
 import com.packt.pets.data.Cat
 import com.packt.pets.data.NetworkResult
 import com.packt.pets.data.PetsRepository
 import com.packt.pets.viewmodel.PetsViewModel
 import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.confirmVerified
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import com.google.common.truth.Truth.*
-import io.mockk.coVerify
-import io.mockk.confirmVerified
-import kotlinx.coroutines.test.runTest
 
 /**
  * Created by Tom Buczynski on 27.03.2025.
@@ -22,8 +22,8 @@ class ViewModelTests {
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
-    private lateinit var viewModel: PetsViewModel;
-    private lateinit var petsRepository: PetsRepository;
+    private lateinit var viewModel: PetsViewModel
+    private lateinit var petsRepository: PetsRepository
 
     @Before
     fun setup() {
@@ -33,7 +33,6 @@ class ViewModelTests {
 
     @Test
     fun testPetsRepository() = runTest {
-
         val cats = listOf(
             Cat(
                 "GUOunrpLPB6Jw0zE",
@@ -45,12 +44,10 @@ class ViewModelTests {
                 ),
                 true,
             ),
-            Cat("dmjubveyQIbCFA2v", listOf("orange"))
+            Cat("dmjubveyQIbCFA2v", listOf("orange")),
         )
 
-
-        val catsResult =
-            NetworkResult.Success(cats)
+        val catsResult = NetworkResult.Success(cats)
 
         coEvery { petsRepository.getAllPets() } returns flowOf(catsResult)
         coEvery { petsRepository.getFavoritePets() } returns flowOf(cats)
@@ -70,6 +67,5 @@ class ViewModelTests {
         assertThat(retrievedFavPets).isEqualTo(cats)
 
         confirmVerified(petsRepository)
-
     }
 }

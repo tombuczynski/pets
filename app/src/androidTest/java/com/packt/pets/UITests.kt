@@ -32,7 +32,7 @@ class UITests {
 
     @Test
     fun testPetListItem() {
-        with (composeTestRule) {
+        with(composeTestRule) {
             setContent {
                 var pet by remember {
                     mutableStateOf(
@@ -45,15 +45,15 @@ class UITests {
                                 "multiple",
                             ),
                             isFavorite = false,
-                        )
+                        ),
                     )
                 }
 
                 PetListItem(
                     pet = pet,
-                    onPetClicked = {  },
+                    onPetClicked = { },
                     onFavoritePetClicked = { pet = pet.copy(isFavorite = true) },
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
                 )
             }
 
@@ -75,6 +75,5 @@ class UITests {
                 assertIsOn()
             }
         }
-
     }
 }

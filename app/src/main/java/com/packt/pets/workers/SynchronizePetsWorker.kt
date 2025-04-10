@@ -1,7 +1,6 @@
 package com.packt.pets.workers
 
 import android.content.Context
-import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.packt.pets.data.PetsRepository
@@ -20,8 +19,8 @@ class SynchronizePetsWorker(
         try {
             repo.fetchPetsRemotely()
             Result.success()
-        } catch (e: IOException) {
-            //Log.e("SynchronizePetsWorker", "doWork: " + e.message)
+        } catch (_: IOException) {
+            // Log.e("SynchronizePetsWorker", "doWork: " + e.message)
             Result.retry()
         }
 }

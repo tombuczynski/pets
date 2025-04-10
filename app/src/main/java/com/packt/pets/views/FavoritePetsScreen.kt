@@ -16,8 +16,8 @@ import com.packt.pets.data.Cat
 @Composable
 fun FavoritePetsScreen(
     favoritePets: List<Cat>,
-    modifier: Modifier = Modifier,
     listState: LazyListState,
+    modifier: Modifier = Modifier,
     onFavoritePetClicked: (Cat) -> Unit = {},
 ) {
     Box(contentAlignment = Alignment.Center, modifier = modifier) {

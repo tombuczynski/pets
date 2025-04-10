@@ -52,7 +52,8 @@ fun FavoritePetList(
             items(pets, key = { it.id }) { pet ->
                 FavoritePetListItem(
                     pet = pet,
-                    modifier = Modifier.fillMaxWidth(),//.animateItem(),
+                    modifier = Modifier.fillMaxWidth(),
+                    // .animateItem(),
                     onFavoritePetClicked = onFavoritePetClicked,
                 )
             }

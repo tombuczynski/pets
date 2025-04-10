@@ -83,16 +83,16 @@ fun NavigationContent(
                     navigationType = navigationType,
                     uiState = uiState,
                     selectedPet = selectedPet,
-                    modifier = Modifier.fillMaxSize(),
-                    listState = listState,
                     onPetClicked = {
                         petsViewModel.setSelectedPet(it)
 
-                        if (navigationType.contentType == ContentType.LIST)
+                        if (navigationType.contentType == ContentType.LIST) {
                             navController.navigate(Route.PetDetails(it))
+                        }
                     },
-                    onFavoritePetClicked = { petsViewModel.updatePet(it)},
-                )
+                    listState = listState,
+                    modifier = Modifier.fillMaxSize(),
+                ) { petsViewModel.updatePet(it) }
             } else {
                 Box(modifier = Modifier.fillMaxSize())
             }
@@ -102,10 +102,9 @@ fun NavigationContent(
             if (permissionStatus == PermissionStatus.GRANTED) {
                 FavoritePetsScreen(
                     favoritePets = favoritePets,
-                    modifier = Modifier.fillMaxSize(),
                     listState = favoriteListState,
-                    onFavoritePetClicked = { petsViewModel.updatePet(it.copy(isFavorite = false)) },
-                )
+                    modifier = Modifier.fillMaxSize(),
+                ) { petsViewModel.updatePet(it.copy(isFavorite = false)) }
             } else {
                 Box(modifier = Modifier.fillMaxSize())
             }

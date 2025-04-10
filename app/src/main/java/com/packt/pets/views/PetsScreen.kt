@@ -40,21 +40,18 @@ fun PetsScreen(
     navigationType: NavigationType,
     uiState: PetListUIState,
     selectedPet: Cat?,
-    //petsViewModel: PetsViewModel,
-    modifier: Modifier = Modifier,
-    listState: LazyListState,
+    // petsViewModel: PetsViewModel,
     onPetClicked: (Cat) -> Unit,
+    listState: LazyListState,
+    modifier: Modifier = Modifier,
     onFavoritePetClicked: (Cat) -> Unit,
 ) {
-
 //    val petsViewModel: PetsViewModel = viewModel()
-
     Box(contentAlignment = Alignment.Center, modifier = modifier) {
         AnimatedVisibility(visible = uiState.isLoading) {
             CircularProgressIndicator()
         }
         AnimatedVisibility(visible = uiState.pets.isNotEmpty()) {
-
             var rightPanelWidth = 0.dp
             if (navigationType.featureBounds.height() > 0) {
                 with(LocalDensity.current) {
@@ -73,9 +70,9 @@ fun PetsScreen(
                     PetList(
                         pets = uiState.pets,
                         selectedPet = selectedPet,
+                        onPetClicked = onPetClicked,
                         modifier = Modifier.weight(1f),
                         listState = listState,
-                        onPetClicked = onPetClicked,
                         onFavoritePetClicked = onFavoritePetClicked,
                     )
 
@@ -96,9 +93,9 @@ fun PetsScreen(
                 PetList(
                     pets = uiState.pets,
                     selectedPet = null,
+                    onPetClicked = onPetClicked,
                     modifier = Modifier.fillMaxSize(),
                     listState = listState,
-                    onPetClicked = onPetClicked,
                     onFavoritePetClicked = onFavoritePetClicked,
                 )
             }
@@ -126,9 +123,8 @@ fun PetsListPreview() {
             ),
             uiState = uiState.value,
             selectedPet = null,
-            listState = rememberLazyListState(),
             onPetClicked = {},
-            onFavoritePetClicked = {},
-        )
+            listState = rememberLazyListState(),
+        ) {}
     }
 }
