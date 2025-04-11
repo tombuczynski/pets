@@ -8,14 +8,6 @@ plugins {
 }
 
 android {
-    signingConfigs {
-        create("release") {
-            storeFile = file("/c:/Users/Tomek/keystore/repo.jks")
-            storePassword = "tomproj!@123"
-            keyAlias = "keyDev"
-            keyPassword = "dev!@123_"
-        }
-    }
     namespace = "com.packt.pets"
     compileSdk = 35
 
@@ -44,7 +36,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
             )
-            signingConfig = signingConfigs.getByName("release")
+//            signingConfig = signingConfigs.getByName("release")
         }
     }
 
