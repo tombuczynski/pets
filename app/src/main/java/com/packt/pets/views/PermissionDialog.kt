@@ -2,8 +2,11 @@ package com.packt.pets.views
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager.PERMISSION_DENIED
 import android.content.pm.PackageManager.PERMISSION_GRANTED
+import android.net.Uri
+import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.material.icons.Icons
@@ -32,7 +35,9 @@ import com.packt.pets.R
  */
 @Composable
 fun PermissionDialog(
-    permission: String,
+    permission: String?,
+    rationaleText: String,
+    permissionStatus: PermissionStatus,
     modifier: Modifier = Modifier,
     onPermissionAction: (PermissionStatus) -> Unit,
 ) {
@@ -44,19 +49,26 @@ fun PermissionDialog(
     val permissionDialog = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission(),
     ) { isGranted ->
-        currentOnPermissionAction(if (isGranted) PermissionStatus.GRANTED else PermissionStatus.DENIED)
+        currentOnPermissionAction(
+            if (isGranted) PermissionStatus.GRANTED else PermissionStatus.DENIED,
+        )
     }
 
     if (dialogState == 1) {
         AlertDialog(
             title = { Text(stringResource(R.string.app_name)) },
             icon = { Icon(Icons.Default.Warning, null) },
-            text = { Text("This app requires the location permission to be granted.") },
+            text = { Text(rationaleText) },
             onDismissRequest = { dialogState = 2 },
             confirmButton = {
-                TextButton(onClick = { dialogState = 2 }) {
-                    Text("OK")
-                }
+                TextButton(onClick = {
+                    dialogState = 2
+
+                    if (permission == null) {
+                        currentOnPermissionAction(PermissionStatus.DENIED)
+                        openAppPermissionSettings(context)
+                    }
+                }) { Text("OK") }
             },
             properties = DialogProperties(dismissOnClickOutside = false),
             modifier = modifier,
@@ -64,17 +76,23 @@ fun PermissionDialog(
     }
 
     LaunchedEffect(dialogState) {
-        if (dialogState == 0) {
-            val actualPermStatus = checkPermissionStatus(context, permission)
-
-            if (actualPermStatus == PermissionStatus.GRANTED) {
-                currentOnPermissionAction(actualPermStatus)
-            } else if (actualPermStatus == PermissionStatus.DENIED) {
-                dialogState =
-                    if (shouldShowRequestPermissionRationale(context, permission)) 1 else 2
+        if (permission == null) {
+            if (dialogState == 0 && permissionStatus == PermissionStatus.UNKNOWN) {
+                dialogState = 1
             }
-        } else if (dialogState == 2) {
-            permissionDialog.launch(permission)
+        } else {
+            if (dialogState == 0 && permissionStatus == PermissionStatus.UNKNOWN) {
+                val actualPermStatus = checkPermissionStatus(context, permission)
+
+                if (actualPermStatus == PermissionStatus.GRANTED) {
+                    currentOnPermissionAction(actualPermStatus)
+                } else if (actualPermStatus == PermissionStatus.DENIED) {
+                    dialogState =
+                        if (shouldShowRequestPermissionRationale(context, permission)) 1 else 2
+                }
+            } else if (dialogState == 2) {
+                permissionDialog.launch(permission)
+            }
         }
     }
 }
@@ -93,4 +111,15 @@ private fun checkPermissionStatus(context: Context, permission: String): Permiss
         PERMISSION_DENIED -> PermissionStatus.DENIED
         else -> PermissionStatus.UNKNOWN
     }
+}
+
+private fun openAppPermissionSettings(context: Context) {
+    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+        data = Uri.fromParts("package", context.packageName, null)
+        addCategory(Intent.CATEGORY_DEFAULT)
+        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+        addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS)
+    }
+    context.startActivity(intent)
 }

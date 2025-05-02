@@ -1,6 +1,7 @@
 package com.packt.pets.views
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -99,7 +100,10 @@ fun PetListItem(
         modifier = modifier
             .padding(8.dp) then borderModifier
             .testTag("PetListItemCard")
-            .selectable(isSelected) { onPetClicked(pet) },
+            .selectable(isSelected) { }
+            .combinedClickable(onLongClick = { throw UnsupportedOperationException("Long Click not implemented") }) {
+                onPetClicked(pet)
+            },
     ) {
         Column(modifier = Modifier.fillMaxWidth().testTag("PetListItemColumn")) {
             AsyncImage(

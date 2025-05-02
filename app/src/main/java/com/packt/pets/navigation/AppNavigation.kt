@@ -9,7 +9,10 @@ import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -17,6 +20,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.window.core.layout.WindowSizeClass
 import androidx.window.layout.FoldingFeature
 import com.packt.pets.views.MainScreen
+import com.packt.pets.views.PermissionStatus
 import kotlinx.coroutines.launch
 import kotlin.reflect.KClass
 
@@ -31,6 +35,8 @@ fun AppNavigation() {
 
     val listState = rememberLazyListState()
     val favoriteListState = rememberLazyListState()
+
+    var notifyPermissionStatus by rememberSaveable { mutableStateOf(PermissionStatus.UNKNOWN) }
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     // val currentDestination = navBackStackEntry?.destination
@@ -85,6 +91,10 @@ fun AppNavigation() {
             listState = listState,
             favoriteListState = favoriteListState,
             navController = navController,
+            notifyPermissionStatus = notifyPermissionStatus,
+            onNotifyPermissionAction = {
+                notifyPermissionStatus = it
+            },
         )
     } else {
         NavDrawer(
@@ -113,6 +123,10 @@ fun AppNavigation() {
                     listState = listState,
                     favoriteListState = favoriteListState,
                     navController = navController,
+                    notifyPermissionStatus = notifyPermissionStatus,
+                    onNotifyPermissionAction = {
+                        notifyPermissionStatus = it
+                    },
                 )
             }
         }

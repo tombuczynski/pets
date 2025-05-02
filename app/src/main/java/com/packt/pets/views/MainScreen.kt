@@ -1,5 +1,7 @@
 package com.packt.pets.views
 
+import android.Manifest
+import android.os.Build
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -16,9 +18,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import com.packt.pets.navigation.BottomNavBar
 import com.packt.pets.navigation.ContentType
@@ -27,6 +28,7 @@ import com.packt.pets.navigation.NavigationContent
 import com.packt.pets.navigation.NavigationType
 import com.packt.pets.navigation.Route
 import com.packt.pets.navigation.isRouteCurrent
+import com.packt.pets.thutils.AppNotifications
 
 /**
  * Created by Tom Buczynski on 28.12.2024.
@@ -42,7 +44,11 @@ fun MainScreen(
     listState: LazyListState,
     favoriteListState: LazyListState,
     navController: NavHostController,
+    notifyPermissionStatus: PermissionStatus,
+    onNotifyPermissionAction: (PermissionStatus) -> Unit,
 ) {
+    val context = LocalContext.current
+
     Scaffold(
         topBar = {
             if (navigationType.contentType != ContentType.LIST_AND_DETAIL) {
@@ -77,6 +83,25 @@ fun MainScreen(
             }
         },
         content = {
+            // Notification permission dialog
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                PermissionDialog(
+                    permission = Manifest.permission.POST_NOTIFICATIONS,
+                    rationaleText = "Grant notifications to show promotional messages",
+                    permissionStatus = notifyPermissionStatus,
+                    onPermissionAction = onNotifyPermissionAction,
+                )
+            } else {
+                if (!AppNotifications.areNotificationsEnabled(context)) {
+                    PermissionDialog(
+                        permission = null,
+                        rationaleText = "Enable notifications to show promotional messages",
+                        permissionStatus = notifyPermissionStatus,
+                        onPermissionAction = onNotifyPermissionAction,
+                    )
+                }
+            }
+
             NavigationContent(
                 navigationType = navigationType,
                 navController = navController,
