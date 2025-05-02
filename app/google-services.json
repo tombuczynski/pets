@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "904967226427",
+    "project_id": "pets-tomprojcompl",
+    "storage_bucket": "pets-tomprojcompl.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:904967226427:android:5cebb387e249b49e5a481e",
+        "android_client_info": {
+          "package_name": "com.packt.pets"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBiVetu6llkBkiA01FVFJsW9VQU_EmjoX4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
