@@ -8,6 +8,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Build;
 import android.view.View;
 import android.widget.Toast;
@@ -29,14 +30,10 @@ import androidx.core.app.NotificationManagerCompat;
 public class AppNotifications {
 
     private final String mChannelId;
-    private final String mChannelName;
-    private final String mChannelDescription;
     private boolean mChannelCreated;
 
-    public AppNotifications(String channelId, String channelName, String channelDescription) {
+    public AppNotifications(String channelId) {
         mChannelId = channelId;
-        mChannelName = channelName;
-        mChannelDescription = channelDescription;
         mChannelCreated = false;
     }
 
@@ -86,17 +83,6 @@ public class AppNotifications {
         // the NotificationChannel class is not in the Support Library.
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(c);
 
-        if (! mChannelCreated && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel(mChannelId, mChannelName, importance);
-            channel.setDescription(mChannelDescription);
-            // Register the channel with the system; you can't change the importance
-            // or other notification behaviors after this.
-            notificationManager.createNotificationChannel(channel);
-
-            mChannelCreated = true;
-        }
-
         NotificationCompat.Builder builder = new NotificationCompat.Builder(c, mChannelId)
                 .setSmallIcon(icon)
                 .setContentTitle(title)
@@ -124,5 +110,20 @@ public class AppNotifications {
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(c);
 
         return notificationManager.areNotificationsEnabled();
+    }
+
+    public void createChannel(Context c, String channelName, String channelDescription) {
+        if (! mChannelCreated && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(c);
+
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(mChannelId, channelName, importance);
+            channel.setDescription(channelDescription);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this.
+            notificationManager.createNotificationChannel(channel);
+
+            mChannelCreated = true;
+        }
     }
 }

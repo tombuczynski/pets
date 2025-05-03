@@ -32,7 +32,7 @@ class FirebaseNotificationService : FirebaseMessagingService() {
     override fun onCreate() {
         super.onCreate()
 
-        notifications = AppNotifications("PetsNewsMessage", "Pets News", "Notifies about Pets App news")
+        notifications = AppNotifications("PetsNewsMessage")
     }
 
     private fun postNotification(c: Context, msg: RemoteMessage) {

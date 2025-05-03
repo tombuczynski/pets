@@ -14,11 +14,13 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.window.core.layout.WindowSizeClass
 import androidx.window.layout.FoldingFeature
+import com.packt.pets.thutils.AppNotifications
 import com.packt.pets.views.MainScreen
 import com.packt.pets.views.PermissionStatus
 import kotlinx.coroutines.launch
@@ -35,6 +37,8 @@ fun AppNavigation() {
 
     val listState = rememberLazyListState()
     val favoriteListState = rememberLazyListState()
+
+    val context = LocalContext.current
 
     var notifyPermissionStatus by rememberSaveable { mutableStateOf(PermissionStatus.UNKNOWN) }
 
@@ -82,6 +86,14 @@ fun AppNavigation() {
         }
     }
 
+    val notifyPermissionAction: (PermissionStatus) -> Unit = {
+        notifyPermissionStatus = it
+
+        if (it == PermissionStatus.GRANTED) {
+            AppNotifications("PetsNewsMessage").createChannel(context, "Pets News", "Notifies about Pets App news")
+        }
+    }
+
     if (navigationType.navControlType == NavControlType.BOTTOM_NAVIGATION) {
         MainScreen(
             navigationType = navigationType,
@@ -92,9 +104,7 @@ fun AppNavigation() {
             favoriteListState = favoriteListState,
             navController = navController,
             notifyPermissionStatus = notifyPermissionStatus,
-            onNotifyPermissionAction = {
-                notifyPermissionStatus = it
-            },
+            onNotifyPermissionAction = notifyPermissionAction,
         )
     } else {
         NavDrawer(
@@ -124,9 +134,7 @@ fun AppNavigation() {
                     favoriteListState = favoriteListState,
                     navController = navController,
                     notifyPermissionStatus = notifyPermissionStatus,
-                    onNotifyPermissionAction = {
-                        notifyPermissionStatus = it
-                    },
+                    onNotifyPermissionAction = notifyPermissionAction,
                 )
             }
         }
