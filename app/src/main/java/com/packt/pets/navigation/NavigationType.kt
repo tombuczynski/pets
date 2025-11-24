@@ -1,9 +1,7 @@
 package com.packt.pets.navigation
 
 import android.graphics.Rect
-import androidx.window.core.layout.WindowHeightSizeClass
 import androidx.window.core.layout.WindowSizeClass
-import androidx.window.core.layout.WindowWidthSizeClass
 import androidx.window.layout.FoldingFeature
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract
@@ -58,16 +56,16 @@ fun determineNavigationType(
     var contentType = ContentType.LIST
     var featureBounds = Rect()
 
-    if (windowSizeClass.windowHeightSizeClass == WindowHeightSizeClass.COMPACT) {
+    if (! windowSizeClass.isHeightAtLeastBreakpoint(WindowSizeClass.HEIGHT_DP_MEDIUM_LOWER_BOUND)) {
         navControlType = NavControlType.NAVIGATION_DRAWER
-    } else if (windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.COMPACT) {
+    } else if (! windowSizeClass.isWidthAtLeastBreakpoint(WindowSizeClass.WIDTH_DP_MEDIUM_LOWER_BOUND)) {
         navControlType = NavControlType.BOTTOM_NAVIGATION
-    } else if (windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.MEDIUM) {
+    } else if (! windowSizeClass.isWidthAtLeastBreakpoint(WindowSizeClass.WIDTH_DP_EXPANDED_LOWER_BOUND)) {
         if (isVerticallySeparated(foldingFeature)) {
             contentType = ContentType.LIST_AND_DETAIL
             featureBounds = foldingFeature.bounds
         }
-    } else if (windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.EXPANDED) {
+    } else {
         contentType = ContentType.LIST_AND_DETAIL
         if (isVerticallySeparated(foldingFeature) || isBookPostured(foldingFeature)) {
             featureBounds = foldingFeature.bounds

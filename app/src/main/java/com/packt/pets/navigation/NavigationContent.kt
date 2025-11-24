@@ -52,7 +52,11 @@ fun NavigationContent(
                     petsViewModel.setSelectedPet(it)
 
                     if (navigationType.contentType == ContentType.LIST) {
-                        navController.navigate(Route.PetDetails(it))
+                        navController.navigate(Route.PetDetails(it)) {
+                            // Avoid multiple copies of the same destination when
+                            // reselecting the same item
+                            launchSingleTop = true
+                        }
                     }
                 },
                 listState = listState,
