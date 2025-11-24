@@ -19,11 +19,20 @@ android {
         applicationId = "com.packt.pets"
         minSdk = 24
         targetSdk = 34
-        versionCode = 2
-        versionName = "1.0.1"
+        versionCode = 3
+        versionName = "1.0.2"
 
         // testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunner = "com.packt.pets.InstrumentationTestRunner"
+    }
+
+    signingConfigs {
+        create("release") {
+            storeFile = file("/c:/Users/Tomek/keystore/repo.jks")
+            storePassword = "tomproj#dg12_"
+            keyAlias = "keyDevTomProj"
+            keyPassword = "dev!rh982_"
+        }
     }
 
     buildTypes {
@@ -40,7 +49,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
             )
-//            signingConfig = signingConfigs.getByName("release")
+            signingConfig = signingConfigs.getByName("release")
         }
     }
 
